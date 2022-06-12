@@ -17,5 +17,5 @@ def employeelogin():
 @employees.route("/employeemain/<id>", methods=['GET'])
 def employeemain(id):
     results = db.main.employee.find_one({"uniqueid": id})
-    return render_template("employers/employerportal.html", name=results["name"], employee_id=results["uniqieiddone"])
+    return render_template("employeeportal.html", name=results["name"])
 

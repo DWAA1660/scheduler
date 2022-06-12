@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, request
+from flask import Blueprint, redirect, request, flash
 import pymongo
 import random
 client = pymongo.MongoClient("mongodb+srv://DWAA:Pinta123@kimshomecarec.el8me5e.mongodb.net/?retryWrites=true&w=majority")
@@ -23,7 +23,7 @@ def employersignupdata():
 
     db.main.employer.insert_one({"name": name, "phone": phone, "email": email, "password": password, "uniqueid": uniqieiddone, "employees": []})
 
-    return redirect ("/getstarted")
+    return redirect (f"/employermain/{uniqieiddone}")
     
 
 @datahandlers.route("/employerlogindata", methods=['POST'])
@@ -52,7 +52,7 @@ def employeesignupdata():
 
     db.main.employee.insert_one({"name": name, "phone": phone, "email": email, "password": password, "uniqueid": uniqieiddone})
 
-    return redirect ("/getstarted")
+    return redirect (f"/employeemain/{uniqieiddone}")
     
 @datahandlers.route("/employeelogindata", methods=['POST'])
 def employeelogindata():
@@ -70,6 +70,17 @@ def employeelogindata():
 def addemployer():
     employersid = request.form["employers_id"]
     results = db.main.employer.find_one({"uniqueid": employersid})
+    email = request.form["email"]
+    password = request.form["password"]
+    resultsemployee = db.main.employee.find_one({"email": email, "password": password})
     if results == None:
         return "Invalid id please try again"
-    db.main.employer.updateOne({"uniqueid": employersid}, {"$push": {"employers": employee_id}})
+    if resultsemployee == None:
+        return "Your credntials are invalid please try again"
+    employee_id = resultsemployee["uniqueid"]
+    #adds employee to employers db
+    db.main.employer.update_one({"uniqueid": employersid}, {"$push": {"employees": employee_id}})
+    #adds employer to employees db
+    db.main.employee.update_one({"uniqueid": resultsemployee["uniqueid"]}, {"$push": {"employers": employersid}})
+
+    return redirect(f"/employeemain/{resultsemployee['uniqueid']}")

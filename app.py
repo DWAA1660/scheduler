@@ -15,6 +15,7 @@ app = Flask(__name__)
 app.register_blueprint(employees)
 app.register_blueprint(datahandlers)
 app.register_blueprint(employers)
+app.secret_key = 'super secret key'
 
 @app.route("/", methods=['GET'])
 def index():
@@ -28,5 +29,6 @@ def getstarted():
 
 # If the file is run directly,start the app.
 if __name__ == '__main__':
-    app.run()
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.run(Debug=True)
 
