@@ -1,0 +1,15 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>Welcome {{name}}</title>
+</head>
+<body>
+{{name}}'s employee portal
+
+<form action="{{url_for('datahandlers.addemployer')}}">
+    <input type="text" name="employers_id" placeholder="employers id">
+    <input type="submit">
+    
+</form>
+</body>
+</html>
