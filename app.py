@@ -28,5 +28,5 @@ def getstarted():
 
 # If the file is run directly,start the app.
 if __name__ == '__main__':
-    app.run(Debug=True)
+    app.run()
 
