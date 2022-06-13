@@ -7,10 +7,10 @@ db = client.main
 
 employers = Blueprint("employers", __name__, template_folder="templates/employers")
 
-@employers.route("/employermain/<id>", methods=['GET'])
-def employermain(id):
-    results = db.main.employer.find_one({"uniqueid": id})
-    return render_template("/employerportal.html", name=results["name"], your_id=results["uniqueid"])
+@employers.route("/employermain/<token>", methods=['GET'])
+def employermain(token):
+    results = db.main.employer.find_one({"token": token})
+    return render_template("/employerportal.html", name=results["name"], your_id=results["id"], employees=results["employees"], db=db)
 
 
 @employers.route("/employersignup", methods=['GET'])

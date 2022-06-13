@@ -5,6 +5,14 @@
 </head>
 <body>
 <h2>{{name}}'s portal</h2>
-<h5>Your id is "{{your_id}}"</h5>
+<h4>Your id is "{{your_id}}"</h4>
+
+<h3>Employees here</h3>
+<ul>
+{% for employee in employees %}
+    {% set return = db.main.employee.find_one({"id": employee}) %}
+    <li>{{return["name"]}}</li>
+{% endfor %}
+</ul>
 </body>
 </html>

@@ -14,8 +14,9 @@ def employeesignup():
 def employeelogin():
     return render_template('employeelogin.html')
 
-@employees.route("/employeemain/<id>", methods=['GET'])
-def employeemain(id):
-    results = db.main.employee.find_one({"uniqueid": id})
-    return render_template("employeeportal.html", name=results["name"])
+@employees.route("/employeemain/<token>", methods=['GET'])
+def employeemain(token):
+    results = db.main.employee.find_one({"token": token})
+    
+    return render_template("employeeportal.html", name=results["name"], employers=results["employers"], db=db, token=token)
 

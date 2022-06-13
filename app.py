@@ -1,6 +1,7 @@
 from employees import employees
 from datahandlers import datahandlers
 from employers import employers
+from jobs import jobs
 from crypt import methods
 import email
 from pydoc import cli
@@ -15,6 +16,7 @@ app = Flask(__name__)
 app.register_blueprint(employees)
 app.register_blueprint(datahandlers)
 app.register_blueprint(employers)
+app.register_blueprint(jobs)
 app.secret_key = 'super secret key'
 
 @app.route("/", methods=['GET'])
