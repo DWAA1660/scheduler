@@ -1,7 +1,7 @@
 from re import template
 from flask import Blueprint, render_template
 import pymongo
-client = pymongo.MongoClient("mongodb+srv://DWAA:Pinta123@kimshomecarec.el8me5e.mongodb.net/?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://DWAA:Pinta123@kimshomecarec.el8me5e.mongodb.net/")
 db = client.main
 
 
@@ -10,7 +10,8 @@ employers = Blueprint("employers", __name__, template_folder="templates/employer
 @employers.route("/employermain/<token>", methods=['GET'])
 def employermain(token):
     results = db.main.employer.find_one({"token": token})
-    return render_template("/employerportal.html", name=results["name"], your_id=results["id"], employees=results["employees"], db=db)
+    jobs = db.main.jobs.find({"owner": token})
+    return render_template("/employerportal.html", tokene=token, name=results["name"], your_id=results["id"], employees=results["employees"], db=db, jobs=jobs)
 
 
 @employers.route("/employersignup", methods=['GET'])

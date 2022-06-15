@@ -1,13 +1,21 @@
-from lib2to3.pgen2 import token
 from flask import Blueprint, redirect, request, flash
 import pymongo
 import random
-client = pymongo.MongoClient("mongodb+srv://DWAA:Pinta123@kimshomecarec.el8me5e.mongodb.net/?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://DWAA:Pinta123@kimshomecarec.el8me5e.mongodb.net/")
 db = client.main
 characters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 
 datahandlers = Blueprint("datahandlers", __name__)
 
+# jobs
+@datahandlers.route("/jobcreate/<tokene>", methods=['POST'])
+def jobcreate(tokene):
+    name = request.form["name"]
+    # id = random.sample(characters, 10)
+    # id_done = "".join(id)
+    # db.main.jobs.insert_one({"owner": tokene, "name": name, "id": id_done, "employees": []})
+
+    return redirect(f"/")
 
     #employers
 @datahandlers.route("/employersignupdata", methods=['POST'])

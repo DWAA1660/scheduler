@@ -6,12 +6,27 @@
 <body>
 <h2>{{name}}'s portal</h2>
 <h4>Your id is "{{your_id}}"</h4>
-
 <h3>Employees here</h3>
 <ul>
 {% for employee in employees %}
     {% set return = db.main.employee.find_one({"id": employee}) %}
     <li>{{return["name"]}}</li>
+{% endfor %}
+</ul>
+
+<h4>
+Add Job
+</h4>
+<form action="{{url_for('datahandlers.jobcreate', token=tokene)}}" method="post">
+    <input type="text" name="job_name" placeholder="Job name">
+    <input type="submit">
+</form>
+<h3>
+Jobs
+</h3>
+<ul>
+{% for job in jobs %}
+<li> {{job["name"]}}
 {% endfor %}
 </ul>
 </body>
