@@ -1,7 +1,9 @@
 from crypt import methods
+from pydoc import cli
 from flask import Blueprint, render_template
 import pymongo
-client = pymongo.MongoClient("mongodb+srv://DWAA:Pinta123@kimshomecarec.el8me5e.mongodb.net/")
+# client = pymongo.MongoClient("mongodb+srv://DWAA:Pinta123@kimshomecarec.el8me5e.mongodb.net/")
+client = pymongo.MongoClient("mongodb://localhost:27017/scheduler")
 db = client.main
 
 

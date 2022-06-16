@@ -5,7 +5,7 @@ from jobs import jobs
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import pymongo
 from pymongo import MongoClient
-client = pymongo.MongoClient("mongodb+srv://DWAA:Pinta123@kimshomecarec.el8me5e.mongodb.net/")
+client = pymongo.MongoClient("mongodb://localhost:27017/scheduler")
 db = client.main
 
 app = Flask(__name__)
