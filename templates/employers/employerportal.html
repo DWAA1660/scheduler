@@ -6,6 +6,7 @@
 <body>
 <h2>{{name}}'s portal</h2>
 <h4>Your id is "{{your_id}}"</h4>
+<h4>your token is "{{your_token}}"
 <h3>Employees here</h3>
 <ul>
 {% for employee in employees %}
@@ -17,7 +18,7 @@
 <h4>
 Add Job
 </h4>
-<form action="{{url_for('datahandlers.jobcreate', token=tokene)}}" method="post">
+<form action="{{url_for('datahandlers.jobcreate', token_sent=your_token)}}" method="post">
     <input type="text" name="job_name" placeholder="Job name">
     <input type="submit">
 </form>

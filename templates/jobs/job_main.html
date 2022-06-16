@@ -4,10 +4,20 @@
 <title>Job portal</title>
 </head>
 <body>
+<h4>Owner is: {{owner}}</h4>
+<h4>
+Add Job
+</h4>
+<form action="{{url_for('datahandlers.job_employee_add', token_sent=your_token)}}" method="post">
+    <input type="text" name="job_name" placeholder="Job name">
+    <input type="submit">
+</form>
+
 <h3>Employees:</h3>
 <ul>
 {% for employee in employees %}
 <li>{{employee}}</li>
+{% endfor %}
 </ul>
 </body>
 </html>

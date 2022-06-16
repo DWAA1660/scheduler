@@ -2,10 +2,6 @@ from employees import employees
 from datahandlers import datahandlers
 from employers import employers
 from jobs import jobs
-from crypt import methods
-import email
-from pydoc import cli
-from unicodedata import name
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import pymongo
 from pymongo import MongoClient

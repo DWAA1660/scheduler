@@ -8,15 +8,14 @@ characters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q
 datahandlers = Blueprint("datahandlers", __name__)
 
 # jobs
-@datahandlers.route("/jobcreate/<tokene>", methods=['POST'])
-def jobcreate(tokene):
-    name = request.form["name"]
-    # id = random.sample(characters, 10)
-    # id_done = "".join(id)
-    # db.main.jobs.insert_one({"owner": tokene, "name": name, "id": id_done, "employees": []})
+@datahandlers.route("/jobcreate/<token_sent>", methods=['POST'])
+def jobcreate(token_sent):
+    job_name = request.form["job_name"]
+    id = random.sample(characters, 10)
+    job_id = "".join(id)
+    db.main.jobs.insert_one({"owner": token_sent, "name": job_name, "id": job_id, "employees": []})
 
-    return redirect(f"/")
-
+    return redirect(f"/jobmainemployer/{job_id}/{token_sent}")
     #employers
 @datahandlers.route("/employersignupdata", methods=['POST'])
 def employersignupdata():
@@ -29,9 +28,7 @@ def employersignupdata():
     token_done = "".join(token)
     id = random.sample(characters, 10)
     id_done = "".join(id)
-    
-    
-
+        
     db.main.employer.insert_one({"name": name, "phone": phone, "email": email, "password": password, "token": token_done, "id": id_done, "employees": []})
 
     return redirect (f"/employermain/{token_done}")
@@ -88,7 +85,7 @@ def addemployer(token):
     if results == None:
         return "Invalid id please try again"
     if resultsemployee == None:
-        return "Your credntials are invalid please try again"
+        return "Your credentials are invalid please try again"
     employee_id = resultsemployee["id"]
     #adds employee to employers db
     db.main.employer.update_one({"id": employersid}, {"$push": {"employees": employee_id}})
