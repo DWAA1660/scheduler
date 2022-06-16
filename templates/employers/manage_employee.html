@@ -1,0 +1,14 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>
+Manage {{employee_results_sent['name']}}
+</title>
+</head>
+<body>
+
+<form action="{{url_for('datahandlers.fire_employee', employee_id_sent=employee_results_sent['id'], employer_token_sent=employer_results_sent['token'])}}", method="post">
+<input type="submit" name="manage_employee" value='Fire'>
+</form>
+</body>
+</html>

@@ -9,11 +9,11 @@
 <h4>your token is "{{your_token}}"
 {% set jobs = db.main.jobs.find({"owner": your_token}) %}
 {{jobs['id']}}
-<h3>Employees here</h3>
+<h3>Employees:</h3>
 <ul>
 {% for employee in employees %}
     {% set return = db.main.employee.find_one({"id": employee}) %}
-    <li>{{return["name"]}}</li>
+    <li><a href="{{url_for('employers.manage_employee', employer_token_sent=your_token, employee_id_sent=return['id'])}}"> {{return["name"]}}</li>
 {% endfor %}
 </ul>
 

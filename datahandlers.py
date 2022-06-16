@@ -28,6 +28,21 @@ def jobcreate(token_sent):
 
     return redirect(f"/jobmainemployer/{job_id}/{token_sent}")
     #employers
+
+@datahandlers.route("/fireemployee/<employee_id_sent>/<employer_token_sent>", methods=['POST'])
+def fire_employee(employee_id_sent, employer_token_sent):
+    employer_results = db.main.employer.find_one({"token": employer_token_sent})
+    if request.form['manage_employee'] == 'Fire':
+        if employer_results is None:
+            return 'employer results are invalid'
+        employee_results = db.main.employee.find_one({"id": employee_id_sent, "employers": employer_results["id"]})
+        if employee_results is None:
+            return 'Not an employee'
+        db.main.employer.update_one({"id": employer_results["id"]}, {"$pull": {"employees": employee_id_sent}})
+        #adds employer to employees db
+        db.main.employee.update_one({"id": employee_id_sent}, {"$pull": {"employers": employer_results['id']}})
+        return redirect(f"/employermain/{employer_token_sent}")
+
 @datahandlers.route("/employersignupdata", methods=['POST'])
 def employersignupdata():
     name = request.form['name']
