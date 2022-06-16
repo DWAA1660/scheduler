@@ -11,7 +11,7 @@ employers = Blueprint("employers", __name__, template_folder="templates/employer
 def employermain(token):
     results = db.main.employer.find_one({"token": token})
     jobs = db.main.jobs.find({"owner": token})
-    return render_template("/employerportal.html", your_token=token, name=results["name"], your_id=results["id"], employees=results["employees"], db=db, jobs=jobs)
+    return render_template("/employerportal.html", your_token=token, name=results["name"], your_id=results["id"], employees=results["employees"], db=db)
 
 
 @employers.route("/employersignup", methods=['GET'])

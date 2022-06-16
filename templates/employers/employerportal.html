@@ -7,6 +7,8 @@
 <h2>{{name}}'s portal</h2>
 <h4>Your id is "{{your_id}}"</h4>
 <h4>your token is "{{your_token}}"
+{% set jobs = db.main.jobs.find({"owner": your_token}) %}
+{{jobs['id']}}
 <h3>Employees here</h3>
 <ul>
 {% for employee in employees %}
@@ -26,8 +28,9 @@ Add Job
 Jobs
 </h3>
 <ul>
-{% for job in jobs %}
-<li> {{job["name"]}}
+{% for job in jobs: %}
+    {% set employer_token = your_token %}
+<li><a href="{{url_for('jobs.jobmain', job_id_sent=job['id'], employer=employer_token)}}"> {{job["name"]}}</li>
 {% endfor %}
 </ul>
 </body>

@@ -1,3 +1,4 @@
+from unicodedata import name
 from flask import Blueprint, redirect, request, flash
 import pymongo
 import random
@@ -8,6 +9,16 @@ characters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q
 datahandlers = Blueprint("datahandlers", __name__)
 
 # jobs
+@datahandlers.route("/job_add_employee/<job_id_sent>/<owner_sent>", methods=['POST'])
+def job_add_employee(job_id_sent, owner_sent):
+    id=request.form["Employee"]
+    employee_id = db.main.employee.find_one({"id": id})
+    print(owner_sent)
+    print(employee_id)
+
+    db.main.jobs.update_one({"id": job_id_sent}, {"$push": {"employees": employee_id["id"]}})
+    return redirect(f"/jobmainemployer/{job_id_sent}/{owner_sent}")
+
 @datahandlers.route("/jobcreate/<token_sent>", methods=['POST'])
 def jobcreate(token_sent):
     job_name = request.form["job_name"]
