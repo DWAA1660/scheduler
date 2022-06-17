@@ -1,0 +1,14 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>
+Manage {{employer_results_sent['name']}}
+</title>
+</head>
+<body>
+
+<form action="{{url_for('datahandlers.quit_employer', employer_id_sent=employer_results_sent['id'], employee_token_sent=employer_results_sent['token'])}}", method="post">
+<input type="submit" name="manage_employee" value='Quit'>
+</form>
+</body>
+</html>

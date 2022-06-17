@@ -9,11 +9,11 @@
     <input type="text" name="employers_id" placeholder="employers id">
     <input type="submit">
 </form>
-<h2>Employers</h2>
+<h3>Employers:</h3>
 <ul>
 {% for employer in employers %}
     {% set return = db.main.employer.find_one({"id": employer}) %}
-    <li>{{return["name"]}}</li>
+    <li><a href="{{url_for('employees.manage_employee', employee_token_sent=your_token, employer_id_sent=return['id'])}}"> {{return["name"]}}</li>
 {% endfor %}
 </ul>
 </body>

@@ -8,7 +8,6 @@
 <h4>Your id is "{{your_id}}"</h4>
 <h4>your token is "{{your_token}}"
 {% set jobs = db.main.jobs.find({"owner": your_token}) %}
-{{jobs['id']}}
 <h3>Employees:</h3>
 <ul>
 {% for employee in employees %}

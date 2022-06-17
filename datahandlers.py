@@ -29,6 +29,20 @@ def jobcreate(token_sent):
     return redirect(f"/jobmainemployer/{job_id}/{token_sent}")
     #employers
 
+@datahandlers.route("/quitemployer/<employer_id_sent>/<employee_token_sent>", methods=['POST'])
+def quit_employer(employer_id_sent, employee_token_sent):
+    employee_results = db.main.employee.find_one({"token": employee_token_sent})
+    if request.form['manage_employee'] == 'Quit':
+        if employee_results is None:
+            return 'Your not an employee'
+        employer_results = db.main.employer.find_one({"id": employer_id_sent, "employers": employee_results["id"]})
+        if employer_results is None:
+            return 'employer results are invalid'
+        db.main.employer.update_one({"id": employer_results["id"]}, {"$pull": {"employees": employer_id_sent}})
+        #removes employer to employees db
+        db.main.employee.update_one({"token": employee_token_sent}, {"$pull": {"employers": employer_results['id']}})
+        return redirect(f"/employeemain/{employee_token_sent}")
+
 @datahandlers.route("/fireemployee/<employee_id_sent>/<employer_token_sent>", methods=['POST'])
 def fire_employee(employee_id_sent, employer_token_sent):
     employer_results = db.main.employer.find_one({"token": employer_token_sent})
@@ -42,6 +56,8 @@ def fire_employee(employee_id_sent, employer_token_sent):
         #adds employer to employees db
         db.main.employee.update_one({"id": employee_id_sent}, {"$pull": {"employers": employer_results['id']}})
         return redirect(f"/employermain/{employer_token_sent}")
+    else: 
+        return 'Whoops what'
 
 @datahandlers.route("/employersignupdata", methods=['POST'])
 def employersignupdata():

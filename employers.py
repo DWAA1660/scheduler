@@ -9,9 +9,9 @@ employers = Blueprint("employers", __name__, template_folder="templates/employer
 @employers.route("/manageemployee/<employer_token_sent>/<employee_id_sent>", methods=['GET'])
 def manage_employee(employer_token_sent, employee_id_sent):
     employer_results = db.main.employer.find_one({"token": employer_token_sent})
-    employee_results = db.main.employee.find_one({"id": employee_id_sent, "employers": employer_results['id']})
     if employer_results is None:
         return 'Invalid credentials'
+    employee_results = db.main.employee.find_one({"id": employee_id_sent, "employers": employer_results['id']})d
     if employee_results is None:
         return 'Not valid employee'
     return render_template("manage_employee.html", employee_results_sent=employee_results, employer_results_sent=employer_results)
