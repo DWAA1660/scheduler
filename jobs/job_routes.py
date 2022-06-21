@@ -4,7 +4,7 @@ client = pymongo.MongoClient("mongodb://localhost:27017/scheduler")
 db = client.main
 
 
-job_routes = Blueprint("job_routes", __name__, template_folder="templates/jobs")
+job_routes = Blueprint("job_routes", __name__)
 
 @job_routes.route("/jobmainemployer/<job_id_sent>/<employer>", methods=['GET'])
 def jobmain(job_id_sent, employer):
@@ -17,7 +17,7 @@ def jobmain(job_id_sent, employer):
     if employer_results is None:
         return 'Not a valid employer of this job'
 
-    return render_template("job_main.html", job_employees=employees, 
+    return render_template("/jobs/job_main.html", job_employees=employees, 
                         results=results,
                         db=db, owner_id=employer_results["id"],
                         owner_token=employer_results["token"], owner=employer_results["name"],

@@ -7,7 +7,7 @@ Manage {{employer_results_sent['name']}}
 </head>
 <body>
 
-<form action="{{url_for('employer_datahandlers.quit_employer', employer_id_sent=employer_results_sent['id'], employee_token_sent=employer_results_sent['token'])}}", method="post">
+<form action="{{url_for('employer_datahandlers.quit_employer', employer_id_sent=employer_results_sent['id'], employee_token_sent=employee_results_sent['token'])}}", method="post">
 <input type="submit" name="manage_employee" value='Quit'>
 </form>
 </body>

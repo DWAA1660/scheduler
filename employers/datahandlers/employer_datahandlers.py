@@ -10,14 +10,15 @@ employer_datahandlers = Blueprint("employer_datahandlers", __name__)
 
 @employer_datahandlers.route("/quitemployer/<employer_id_sent>/<employee_token_sent>", methods=['POST'])
 def quit_employer(employer_id_sent, employee_token_sent):
+    print(employee_token_sent)
     employee_results = db.main.employee.find_one({"token": employee_token_sent})
     if request.form['manage_employee'] == 'Quit':
         if employee_results is None:
             return 'Your not an employee'
-        employer_results = db.main.employer.find_one({"id": employer_id_sent, "employers": employee_results["id"]})
+        employer_results = db.main.employer.find_one({"id": employer_id_sent, "employees": employee_results["id"]})
         if employer_results is None:
             return 'employer results are invalid'
-        db.main.employer.update_one({"id": employer_results["id"]}, {"$pull": {"employees": employer_id_sent}})
+        db.main.employer.update_one({"token": employer_results["token"]}, {"$pull": {"employees": employer_id_sent}})
         #removes employer to employees db
         db.main.employee.update_one({"token": employee_token_sent}, {"$pull": {"employers": employer_results['id']}})
         return redirect(f"/employeemain/{employee_token_sent}")
