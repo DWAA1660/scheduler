@@ -5,7 +5,8 @@
 </head>
 <body>
 {{name}}'s employee portal
-<form action="{{url_for('datahandlers.addemployer', token=token)}}" method="post">
+<h5>your token is {{your_token}}
+<form action="{{url_for('employee_datahandlers.addemployer', token_sent=your_token)}}" method="post">
     <input type="text" name="employers_id" placeholder="employers id">
     <input type="submit">
 </form>
@@ -13,7 +14,7 @@
 <ul>
 {% for employer in employers %}
     {% set return = db.main.employer.find_one({"id": employer}) %}
-    <li><a href="{{url_for('employees.manage_employee', employee_token_sent=your_token, employer_id_sent=return['id'])}}"> {{return["name"]}}</li>
+    <li><a href="{{url_for('employee_routes.manage_employee', employee_token_sent=your_token, employer_id_sent=return['id'])}}"> {{return["name"]}}</li>
 {% endfor %}
 </ul>
 </body>

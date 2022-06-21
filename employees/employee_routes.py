@@ -4,9 +4,9 @@ client = pymongo.MongoClient("mongodb://localhost:27017/scheduler")
 db = client.main
 
 
-employees = Blueprint("employees", __name__, template_folder="templates/employees")
+employee_routes = Blueprint("employee_routes", __name__, template_folder="/home/david/Documents/GitHub/homecare/templates/employees")
 
-@employees.route("/manageemployee/<employee_token_sent>/<employer_id_sent>", methods=['GET'])
+@employee_routes.route("/manageemployee/<employee_token_sent>/<employer_id_sent>", methods=['GET'])
 def manage_employee(employee_token_sent, employer_id_sent):
     employee_results = db.main.employee.find_one({"token": employee_token_sent})
     if employee_results is None:
@@ -16,15 +16,15 @@ def manage_employee(employee_token_sent, employer_id_sent):
         return 'Your not an employee'
     return render_template("manage_employer.html", employee_results_sent=employee_results, employer_results_sent=employer_results)
 
-@employees.route("/employeesignup", methods=['GET'])
+@employee_routes.route("/employeesignup", methods=['GET'])
 def employeesignup():
     return render_template("employee_signup.html")
 
-@employees.route("/employeelogin", methods=['GET'])
+@employee_routes.route("/employeelogin", methods=['GET'])
 def employeelogin():
     return render_template('employeelogin.html')
 
-@employees.route("/employeemain/<token>", methods=['GET'])
+@employee_routes.route("/employeemain/<token>", methods=['GET'])
 def employeemain(token):
     results = db.main.employee.find_one({"token": token})
     

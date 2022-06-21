@@ -4,9 +4,9 @@ client = pymongo.MongoClient("mongodb://localhost:27017/scheduler")
 db = client.main
 
 
-jobs = Blueprint("jobs", __name__, template_folder="templates/jobs")
+job_routes = Blueprint("job_routes", __name__, template_folder="templates/jobs")
 
-@jobs.route("/jobmainemployer/<job_id_sent>/<employer>", methods=['GET'])
+@job_routes.route("/jobmainemployer/<job_id_sent>/<employer>", methods=['GET'])
 def jobmain(job_id_sent, employer):
     results = db.main.jobs.find_one({"id": job_id_sent})
     if results is None:

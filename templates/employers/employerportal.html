@@ -12,14 +12,14 @@
 <ul>
 {% for employee in employees %}
     {% set return = db.main.employee.find_one({"id": employee}) %}
-    <li><a href="{{url_for('employers.manage_employee', employer_token_sent=your_token, employee_id_sent=return['id'])}}"> {{return["name"]}}</li>
+    <li><a href="{{url_for('employer_routes.manage_employee', employer_token_sent=your_token, employee_id_sent=return['id'])}}"> {{return["name"]}}</li>
 {% endfor %}
 </ul>
 
 <h4>
 Add Job
 </h4>
-<form action="{{url_for('datahandlers.jobcreate', token_sent=your_token)}}" method="post">
+<form action="{{url_for('job_datahandlers.jobcreate', token_sent=your_token)}}" method="post">
     <input type="text" name="job_name" placeholder="Job name">
     <input type="submit">
 </form>
@@ -29,7 +29,7 @@ Jobs
 <ul>
 {% for job in jobs: %}
     {% set employer_token = your_token %}
-<li><a href="{{url_for('jobs.jobmain', job_id_sent=job['id'], employer=employer_token)}}"> {{job["name"]}}</li>
+<li><a href="{{url_for('job_routes.jobmain', job_id_sent=job['id'], employer=employer_token)}}"> {{job["name"]}}</li>
 {% endfor %}
 </ul>
 </body>
