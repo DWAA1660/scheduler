@@ -27,5 +27,5 @@ def employeelogin():
 @employee_routes.route("/employeemain/<token>", methods=['GET'])
 def employeemain(token):
     results = db.main.employee.find_one({"token": token})
-    return render_template("/employees/employeeportal.html", name=results["name"], employers=results["employers"], db=db, your_token=token)
+    return render_template("/employees/employeeportal.html", name=results["name"], employers=results["employers"], your_id=results["id"], db=db, your_token=token)
 

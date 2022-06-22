@@ -27,6 +27,7 @@ app.register_blueprint(employer_signup_and_login)
 app.register_blueprint(employer_routes)
 #jobs
 app.register_blueprint(job_datahandlers)
+app.register_blueprint(job_routes)
 
 #configs
 app.secret_key = 'super secret key'
