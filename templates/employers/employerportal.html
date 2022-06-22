@@ -20,7 +20,7 @@
 Add Job
 </h4>
 <form action="{{url_for('job_datahandlers.jobcreate', token_sent=your_token)}}" method="post">
-    <input type="text" name="job_name" placeholder="Job name">
+    <input type="text" name="job_name" placeholder="Job name" required>
     <input type="submit">
 </form>
 <h3>

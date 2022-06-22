@@ -8,9 +8,9 @@ employer sign up
 <body>
 <h1>employer sign up</h1>
 <form action="{{url_for('employer_signup_and_login.employersignupdata')}}" method="post">
-<input type="text" name="name" placeholder="Enter your name">
-<input type="text" name="email" placeholder="Enter your email">
-<input type="text" name="phone" placeholder="Enter your phone">
-<input type="text" name="password" placeholder="Password">
+<input type="text" name="name" placeholder="Enter your name" required>
+<input type="email" name="email" placeholder="Enter your email" required>
+<input type="tel" name="phone" placeholder="Enter your phone" required>
+<input type="password" name="password" placeholder="Password" required>
 <input type="submit" name="submit" value="submit">
 </form>

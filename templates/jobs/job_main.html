@@ -11,7 +11,7 @@ Add Employee
 </h4>
 <form action="{{url_for('job_datahandlers.job_add_employee', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
     <label for="Employee">Choose employee</label>
-    <select name="Employee" id="Employee">
+    <select name="Employee" id="Employee" required>
         {% for employee in employer_employees %}
             {% set employee_results=db.main.employee.find_one({"id": employee}) %}
             {% set employee_name=employee_results["name"] %}
@@ -25,7 +25,7 @@ Remove Employee
 </h4>
 <form action="{{url_for('job_datahandlers.job_remove_employee', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
     <label for="Employee">Choose employee</label>
-    <select name="Employee" id="Employee">
+    <select name="Employee" id="Employee" required>
 
         {% for employee in job_employees %}
             {% set employee_results=db.main.employee.find_one({"id": employee}) %}
