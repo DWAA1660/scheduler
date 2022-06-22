@@ -21,6 +21,19 @@ def job_add_employee(job_id_sent, owner_sent):
     
     return 'That person is already an employer'
 
+@job_datahandlers.route("/job_remove_employee/<job_id_sent>/<owner_sent>", methods=['POST'])
+def job_remove_employee(job_id_sent, owner_sent):
+    id=request.form["Employee"]
+    employee_id = db.main.employee.find_one({"id": id})
+    if employee_id is None:
+        return 'Not valid employee'
+    job_results = db.main.jobs.find_one({"id": job_id_sent, "employees": employee_id["id"]})
+    if job_results is not None:
+        db.main.jobs.update_one({"id": job_id_sent}, {"$pull": {"employees": employee_id["id"]}})
+        return redirect(f"/jobmainemployer/{job_id_sent}/{owner_sent}")
+    
+    return 'That person is not an employer'
+
 @job_datahandlers.route("/jobcreate/<token_sent>", methods=['POST'])
 def jobcreate(token_sent):
     job_name = request.form["job_name"]
