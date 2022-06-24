@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-pymongo = {extras = ["srv"], version = "*"}
+quart = "*"
+motor = "*"
 
 [dev-packages]
 

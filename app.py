@@ -10,13 +10,12 @@ from employers.employer_routes import employer_routes
 from jobs.datahandlers.job_datahandlers import job_datahandlers
 from jobs.job_routes import job_routes
 #global imports
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
-import pymongo
-from pymongo import MongoClient
-client = pymongo.MongoClient("mongodb://localhost:27017/scheduler")
+from quart import Quart, render_template, request, redirect, url_for, flash, jsonify
+import motor
+client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://localhost:27017/scheduler")
 db = client.main
 
-app = Flask(__name__)
+app = Quart(__name__)
 #employees
 app.register_blueprint(employee_routes)
 app.register_blueprint(employee_datahandlers)
@@ -33,13 +32,13 @@ app.register_blueprint(job_routes)
 app.secret_key = 'super secret key'
 
 @app.route("/", methods=['GET'])
-def index():
-    return render_template('index.html')
+async def index():
+    return await render_template('index.html')
 
 
 @app.route("/getstarted", methods=['GET'])
-def getstarted():
-    return render_template('getstarted.html')
+async def getstarted():
+    return await render_template('getstarted.html')
 
 
 # If the file is run directly,start the app.
