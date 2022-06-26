@@ -1,0 +1,73 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>{{job_name}}</title>
+
+</head>
+<body>
+{% set employee_results = db.main.employee.find_one({"token": my_token}) %}
+<h3>Employees</h3>
+<ul>
+{% for employee in employees %}
+	{% set employee_results = db.main.employee.find_one({'id': employee}) %}
+    <li>{{employee_results['name']}}</li>
+{% endfor %}
+</ul>
+<form action="{{url_for('job_datahandlers.employee_shift_log', employee_id_sent=employee_results['id'], job_id=job_id)}}" method="post">
+    <input type="date" id="startDate" name="start_date" value="start_date" placeholder="Start date" required>
+    <input type="time" id="startTimeID" name="start_time" value="start_time" placeholder="Start time" required>
+    <input type="date" id="endDate" name="end_date" value="end_date" placeholder="End date" required>
+    <input type="time" id="endTimeID"name="end_time" value="end_time" placeholder="End time" required>
+    <input type="submit">
+</form>
+<button onclick="startTime()">Set now to start time</button>
+<button onclick="endTime()">Set now to end time</button>
+
+        <script>
+        function startTime() {
+        var current = new Date();
+        let month = String(current.getMonth() + 1).padStart(2, '0');
+        year = current.getFullYear();
+        let date = String(current.getDate()).padStart(2, '0');
+        full_date = year + "-" + month + "-" + date;
+        document.getElementById("startDate").value = full_date;
+
+        // Does the time
+
+        let time = new Date();
+        let hour = String(current.getHours()).padStart(2, '0');
+        let minute = String(current.getMinutes()).padStart(2, '0');
+
+        let full_time = hour + ":" + minute
+        document.getElementById("startTimeID").value = full_time;
+
+        }
+
+        function endTime() {
+        var current = new Date();
+        let month = String(current.getMonth() + 1).padStart(2, '0');
+        year = current.getFullYear();
+        let date = String(current.getDate()).padStart(2, '0');
+        full_date = year + "-" + month + "-" + date;
+        document.getElementById("endDate").value = full_date;
+
+        // Does the time
+
+        let time = new Date();
+        let hour = String(current.getHours()).padStart(2, '0');
+        let minute = String(current.getMinutes()).padStart(2, '0');
+
+        let full_time = hour + ":" + minute
+        document.getElementById("endTimeID").value = full_time;
+        }
+        </script>
+
+<h3>Your Shifts</h3>
+<ul>
+{% set shifts = db.main.shifts.find({"job_id": job_id, "employee": employee_results["id"]}) %}
+{% for shift in shifts %}
+    <li>Start time: {{shift["start_time"]}} {{shift["start_date"]}}: End time: {{shift["end_time"]}} {{shift["end_date"]}}</li>
+{% endfor %}
+</ul>
+</body>
+</html>

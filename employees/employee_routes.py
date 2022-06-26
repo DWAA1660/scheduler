@@ -28,5 +28,23 @@ async def employeelogin():
 @employee_routes.route("/employeemain/<token>", methods=['GET'])
 async def employeemain(token):
     results = await db.main.employee.find_one({"token": token})
-    return await render_template("/employees/employeeportal.html", name=results["name"], employers=results["employers"], your_id=results["id"], db=db, your_token=token)
+    job_results = db.main.jobs.find({"employees": results['id']})
+    return await render_template("/employees/employeeportal.html",
+    name=results["name"],
+    employers=results["employers"],
+    your_id=results["id"],
+    db=db,
+    your_token=token,
+    jobs=job_results
+    )
 
+@employee_routes.route("/employee_job_portal/<job_id>/<employee_token_sent>", methods=['GET'])
+async def employee_job_portal(job_id, employee_token_sent):
+    job_results = await db.main.jobs.find_one({"id": job_id})
+    return await render_template("/employees/employee_job_portal.html",
+    job_name=job_results['name'],
+    employees=job_results['employees'],
+    db=db,
+    my_token=employee_token_sent,
+    job_id=job_id,
+    )

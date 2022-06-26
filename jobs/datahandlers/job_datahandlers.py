@@ -1,3 +1,6 @@
+import re
+from tracemalloc import start
+from unittest import result
 from quart import Blueprint, redirect, request, flash
 import motor
 import random
@@ -43,3 +46,18 @@ async def jobcreate(token_sent):
     await db.main.jobs.insert_one({"owner": token_sent, "name": job_name, "id": job_id, "employees": []})
 
     return redirect(f"/jobmainemployer/{job_id}/{token_sent}")
+
+@job_datahandlers.route("/employee_shift_log/<employee_id_sent>/<job_id>", methods=['POST'])
+async def employee_shift_log(employee_id_sent, job_id):
+    data = (await request.form)
+    start_time = data['start_time']
+    start_date = data['start_date']
+    result = await db.main.employee.find_one({"id": employee_id_sent})
+    if result is None:
+        return 'Incorrect employee'
+    end_time = data['end_time']
+    end_date = data['end_date']
+
+    db.main.shifts.insert_one({"employee": employee_id_sent, "start_date": start_date, "end_date": end_date, "start_time": start_time, "end_time": end_time, "job_id": job_id})
+    return redirect(f"/employee_job_portal/{job_id}/{result['token']}")
+

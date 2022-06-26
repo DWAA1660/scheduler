@@ -15,7 +15,14 @@
 <ul>
 {% for employer in employers %}
     {% set return = db.main.employer.find_one({"id": employer}) %}
-    <li><a href="{{url_for('employee_routes.manage_employee', employee_token_sent=your_token, employer_id_sent=return['id'])}}"> {{return["name"]}}</li>
+    <li><a href="{{url_for('employee_routes.manage_employee', employee_token_sent=your_token, employer_id_sent=return['id'])}}"> {{return["name"]}}</a></li>
+{% endfor %}
+</ul>
+
+<h3>Jobs:</h3>
+<ul>
+{% for job in jobs %}
+    <li><a href="{{url_for('employee_routes.employee_job_portal', job_id=job['id'], employee_token_sent=your_token)}}"> {{job["name"]}} </a></li>
 {% endfor %}
 </ul>
 </body>

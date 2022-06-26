@@ -12,8 +12,8 @@ employee_datahandlers = Blueprint("employee_datahandlers", __name__)
 @employee_datahandlers.route("/addemployer/<token_sent>", methods=['POST'])
 async def addemployer(token_sent):
     employersid = (await request.form) ["employers_id"]
-    results = db.main.employer.find_one({"id": employersid})
-    resultsemployee = db.main.employee.find_one({"token": token_sent})
+    results = await db.main.employer.find_one({"id": employersid})
+    resultsemployee = await db.main.employee.find_one({"token": token_sent})
     if results == None:
         return "Invalid id please try again"
     if resultsemployee == None:
