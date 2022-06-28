@@ -48,8 +48,7 @@ Remove Employee
 {% set shifts = db.main.shifts.find({"job_id": job_id}) %}
 {% for shift in shifts %}
     {% set employee_results = db.main.employee.find_one({"id":shift['employee']}) %}
-    
-    <li>Employee <b>{{employee_results['name']}}</b> Start time: <b>{{shift["start_time"]}} {{shift["start_date"]}}</b>: End time: <b>{{shift["end_time"]}} {{shift["end_date"]}}</b></li>
+    <li>Employee <b>{{employee_results['name']}}</b> Start time: <b>{{shift["start_time"]}} {{shift["start_date"]}}</b>: End time: <b>{{shift["end_time"]}} {{shift["end_date"]}} total time <b>{{shift["total_time"]}}</b></li>
 {% endfor %}
 </ul>
 </body>

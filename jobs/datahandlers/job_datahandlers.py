@@ -57,7 +57,19 @@ async def employee_shift_log(employee_id_sent, job_id):
         return 'Incorrect employee'
     end_time = data['end_time']
     end_date = data['end_date']
+    end_time_hour = data['end_time'].split(':')[0]
+    end_time_minute = data['end_time'].split(':')[1]
+    start_time_hour = data['start_time'].split(':')[0]
+    start_time_minute = data['start_time'].split(':')[1]
+        
+    if data['end_date'].split('-')[2] > data['start_date'].split('-')[2] or data['end_date'].split('-')[1] > data['start_date'].split('-')[1]:
+        end_time_hour = int(end_time_hour) + 24
 
-    db.main.shifts.insert_one({"employee": employee_id_sent, "start_date": start_date, "end_date": end_date, "start_time": start_time, "end_time": end_time, "job_id": job_id})
+    total_hours = int(end_time_hour) - int(start_time_hour)
+
+    total_minutes = int(end_time_minute) - int(start_time_minute)
+
+
+    db.main.shifts.insert_one({"employee": employee_id_sent, "start_date": start_date, "end_date": end_date, "start_time": start_time, "end_time": end_time, "job_id": job_id, "total_hours": total_hours, "total_minutes": total_minutes})
     return redirect(f"/employee_job_portal/{job_id}/{result['token']}")
 
