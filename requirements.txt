@@ -1,2 +1,2 @@
-Quart==2.1.1
-pymongo==4.1.0
+motor==3.0.0
+quart==0.17.0
