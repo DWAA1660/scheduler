@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 quart = "*"
 motor = "*"
+gunicorn = "*"
 
 [dev-packages]
 
