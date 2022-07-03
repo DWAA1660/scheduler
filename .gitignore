@@ -5,3 +5,5 @@ Pipfile.lock
 Pipfile
 .vscode/settings.json
 Pipfile.lock
+.~lock.demo.docx#
+demo.docx

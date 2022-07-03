@@ -66,7 +66,7 @@
 <ul>
 {% set shifts = db.main.shifts.find({"job_id": job_id, "employee": employee_results["id"]}) %}
 {% for shift in shifts %}
-    <li>Start time: <b>{{shift["start_time"]}} {{shift["start_date"]}}:</b> End time: <b>{{shift["end_time"]}} {{shift["end_date"]}}:</b> Total time: <b>{{shift['total_hours']}}:{{shift['total_minutes']}}</b></li>
+    <li>Start time: <b>{{shift["start_time"]}} {{shift["start_date"]}}:</b> End time: <b>{{shift["end_time"]}} {{shift["end_date"]}}:</b> Total time: <b>{{shift["total_time"]}}</b></li>
 {% endfor %}
 </ul>
 </body>

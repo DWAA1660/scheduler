@@ -1,7 +1,8 @@
 from quart import Blueprint, render_template
 import motor
 import motor.motor_asyncio
-client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://localhost:27017/scheduler")
+from CONFIG import *
+client = CLIENT
 db = client.main
 
 
@@ -40,7 +41,10 @@ async def employeemain(token):
 
 @employee_routes.route("/employee_job_portal/<job_id>/<employee_token_sent>", methods=['GET'])
 async def employee_job_portal(job_id, employee_token_sent):
-    job_results = await db.main.jobs.find_one({"id": job_id})
+    employee_results = await db.main.employee.find_one({"token": employee_token_sent})
+    job_results = await db.main.jobs.find_one({"id": job_id, "employees": employee_results['id']})
+    if job_results is None:
+        return 'Not a valid job'
     return await render_template("/employees/employee_job_portal.html",
     job_name=job_results['name'],
     employees=job_results['employees'],

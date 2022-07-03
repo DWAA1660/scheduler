@@ -10,9 +10,10 @@ from employers.employer_routes import employer_routes
 from jobs.datahandlers.job_datahandlers import job_datahandlers
 from jobs.job_routes import job_routes
 #global imports
-from quart import Quart, render_template, request, redirect, url_for, flash, jsonify
+from quart import Quart, render_template
 import motor
-client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://localhost:27017/scheduler")
+from CONFIG import *
+client = CLIENT
 db = client.main
 
 app = Quart(__name__)

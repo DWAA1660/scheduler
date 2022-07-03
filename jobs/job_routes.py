@@ -1,7 +1,8 @@
 from quart import Blueprint, render_template
 import motor
 import motor.motor_asyncio
-client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://localhost:27017/scheduler")
+from CONFIG import *
+client = CLIENT
 db = client.main
 
 
