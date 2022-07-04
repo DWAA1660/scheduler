@@ -61,4 +61,4 @@ async def invoice(job_id, job_name, amount_of_shifts, shift_results, price_per_h
     row[1].text = f"${float(total_price)}"
 
 
-    document.save('demo.docx')
+    document.save(f'static/{job_id}-demo.docx')

@@ -1,4 +1,4 @@
-from quart import Blueprint, redirect, request, flash
+from quart import Blueprint, redirect, request, flash, send_file
 from invoice import invoice
 import motor
 import random
@@ -28,8 +28,10 @@ async def jobmakeinvoice(job_id_sent, owner_sent):
         shift_results=shift_results,
         price_per_hour=job_results['price_per_hour']
     )
-    return redirect(f"/jobmainemployer/{job_id_sent}/{owner_sent}")
+    #For windows you need to use drive name [ex: F:/Example.pdf]
+    return await send_file(f'static/{job_id_sent}-demo.docx', as_attachment=True)
     
+
 
 
 @job_datahandlers.route("/job_add_employee/<job_id_sent>/<owner_sent>", methods=['POST'])
