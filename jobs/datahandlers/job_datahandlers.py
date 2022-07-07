@@ -36,7 +36,7 @@ async def jobmakeinvoice(job_id_sent, owner_sent):
         input_end_date=input_end_date,
     )
     #For windows you need to use drive name [ex: F:/Example.pdf]
-    return await send_file(f'static/{job_id_sent}-demo.docx', as_attachment=True)
+    return await send_file(f'static/{job_id_sent}-invoice.docx', as_attachment=True)
     
 
 
