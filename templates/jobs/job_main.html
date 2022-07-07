@@ -56,7 +56,35 @@ Remove Employee
 Make Invoice
 </h3>
 <form action="{{url_for('job_datahandlers.jobmakeinvoice', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
+    <input type="date" id="startDate" name="start_date" value="start_date" placeholder="Start date" required>
+    <input type="date" id="endDate" name="end_date" value="end_date" placeholder="End date" required>
     <input type="submit" value="Create Invoice">
+
 </form>
+<button onclick="startTime()">Set now to start time</button>
+<button onclick="endTime()">Set now to end time</button>
+
+<script>
+function startTime() {
+var current = new Date();
+let month = String(current.getMonth() + 1).padStart(2, '0');
+year = current.getFullYear();
+let date = String(current.getDate()).padStart(2, '0');
+full_date = year + "-" + month + "-" + date;
+document.getElementById("startDate").value = full_date;
+
+// Does the time
+}
+
+function endTime() {
+var current = new Date();
+let month = String(current.getMonth() + 1).padStart(2, '0');
+year = current.getFullYear();
+let date = String(current.getDate()).padStart(2, '0');
+full_date = year + "-" + month + "-" + date;
+document.getElementById("endDate").value = full_date;
+
+}
+</script>
 </body>
 </html>

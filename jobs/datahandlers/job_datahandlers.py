@@ -21,12 +21,19 @@ async def jobmakeinvoice(job_id_sent, owner_sent):
         return 'Not a valid job'
     amount_of_shifts = await db.main.shifts.count_documents({"job_id": job_id_sent})
     shift_results = db.main.shifts.find({"job_id": job_id_sent})
+
+    input_start_date = (await request.form)['start_date']
+
+    input_end_date = (await request.form)['end_date']
+
     await invoice(
         job_id=job_id_sent,
         job_name=job_results['name'],
         amount_of_shifts=amount_of_shifts,
         shift_results=shift_results,
-        price_per_hour=job_results['price_per_hour']
+        price_per_hour=job_results['price_per_hour'],
+        input_start_date=input_start_date,
+        input_end_date=input_end_date,
     )
     #For windows you need to use drive name [ex: F:/Example.pdf]
     return await send_file(f'static/{job_id_sent}-demo.docx', as_attachment=True)
@@ -99,9 +106,9 @@ async def employee_shift_log(employee_id_sent, job_id):
     end_hour_stripped = end_time.split(':')[0]
     end_minute_stripped = end_time.split(':')[1]
 
-    start_inputted_var = f"{end_year_stripped}-{end_month_stripped}-{end_day_stripped}-{end_hour_stripped}:{end_minute_stripped}"
+    end_inputted_var = f"{end_year_stripped}-{end_month_stripped}-{end_day_stripped}-{end_hour_stripped}:{end_minute_stripped}"
 
-    end_time_total = datetime.strptime(start_inputted_var, '%Y-%m-%d-%H:%M')
+    end_time_total = datetime.strptime(end_inputted_var, '%Y-%m-%d-%H:%M')
 
     totaltime = end_time_total - start_time_total
 

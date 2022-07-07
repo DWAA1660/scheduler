@@ -7,3 +7,5 @@ Pipfile
 Pipfile.lock
 .~lock.demo.docx#
 demo.docx
+*.docx
+CONFIG.py

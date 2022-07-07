@@ -1,13 +1,16 @@
+import datetime
+from datetime import timedelta
+from datetime import datetime
 from docx import Document
 import motor
 import motor.motor_asyncio
 from docx.shared import Inches
 from CONFIG import CLIENT
 db = CLIENT.main 
-async def invoice(job_id, job_name, amount_of_shifts, shift_results, price_per_hour):
-    total_price = 0.0
-    total_hours = 0.0
-    total_minutes = 0.0
+
+total_list = []
+
+async def invoice(job_id, job_name, amount_of_shifts, shift_results, price_per_hour, input_start_date, input_end_date):
     document = Document()
     document.add_heading(f'Invoice for {job_name}', 0)
     #time sheet
@@ -17,21 +20,38 @@ async def invoice(job_id, job_name, amount_of_shifts, shift_results, price_per_h
     collum[1].text = 'Time worked'
     total_hours = 0
     total_minutes = 0
+    # row = shift_table.add_row().cells
+    # row[0].text = employee_results['name']
+    # row[1].text = shift['total_time']
+
+    # shift_minutes = shift['total_time'].split(':')[1]
+    # shift_hours = shift['total_time'].split(':')[0]
     async for shift in shift_results:
         employee_id = shift['employee']
         employee_results = await db.main.employee.find_one({'id': employee_id})
-        row = shift_table.add_row().cells
-        row[0].text = employee_results['name']
-        row[1].text = shift['total_time']
+        
 
-        shift_minutes = shift['total_time'].split(':')[1]
-        shift_hours = shift['total_time'].split(':')[0]
+        start_formatted = datetime.strptime(shift['start_date'], '%Y-%m-%d')
+        end_formatted = datetime.strptime(shift['end_date'], '%Y-%m-%d')
+        
+        start_input_date_formatted = datetime.strptime(input_start_date, '%Y-%m-%d')
+        end_input_date_formmatted = datetime.strptime(input_end_date, '%Y-%m-%d')
 
-        total_hours = total_hours + int(shift_hours)
-        total_minutes = total_minutes +  int(shift_minutes)
+        if start_formatted >= start_input_date_formatted and start_formatted <= end_input_date_formmatted:
+            employee_id = shift['employee']
+            employee_results = await db.main.employee.find_one({'id': employee_id})
+            row = shift_table.add_row().cells
+            row[0].text = employee_results['name']
+            row[1].text = shift['total_time']
 
-    total_hours = (total_minutes // 60) + total_hours
-    total_minutes = total_minutes % 60
+            shift_minutes = shift['total_time'].split(':')[1]
+            shift_hours = shift['total_time'].split(':')[0]
+                    
+            total_hours = total_hours + int(shift_hours)
+            total_minutes = total_minutes +  int(shift_minutes)
+            total_hours = (total_minutes // 60) + total_hours
+            total_minutes = total_minutes % 60
+            
 
     total_time = f"{str(total_hours)}:{str(total_minutes)}"
 
