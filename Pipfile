@@ -8,6 +8,7 @@ quart = "*"
 motor = "*"
 gunicorn = "*"
 python-docx = "*"
+flask-session = "*"
 
 [dev-packages]
 

@@ -1,4 +1,4 @@
-from quart import Blueprint, render_template
+from quart import Blueprint, render_template, request, redirect
 import motor
 import motor.motor_asyncio
 from CONFIG import *
@@ -28,7 +28,14 @@ async def employeelogin():
 
 @employee_routes.route("/employeemain/<token>", methods=['GET'])
 async def employeemain(token):
-    results = await db.main.employee.find_one({"token": token})
+    #cookie stuff
+    token_cookie = request.cookies.get('token')
+    cookie_results = await db.main.employee.find_one({"token": token_cookie})
+    if cookie_results is None:
+        return redirect("/")
+
+    # rest of stuff
+    results = await db.main.employee.find_one({"token": token_cookie})
     job_results = db.main.jobs.find({"employees": results['id']})
     return await render_template("/employees/employeeportal.html",
     name=results["name"],
