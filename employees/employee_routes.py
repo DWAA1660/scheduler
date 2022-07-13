@@ -10,7 +10,7 @@ employee_routes = Blueprint("employee_routes", __name__)
 
 @employee_routes.route("/manageemployer/<employer_id_sent>", methods=['GET'])
 async def manage_employee(employer_id_sent):
-    employee_token_sent = request.cookies.get('token')
+    employee_token_sent = request.cookies.get('employee_token')
 
     employee_results = await db.main.employee.find_one({"token": employee_token_sent})
     if employee_results is None:
@@ -31,10 +31,10 @@ async def employeelogin():
 @employee_routes.route("/employeemain/", methods=['GET'])
 async def employeemain():
     #cookie stuff
-    token_cookie = request.cookies.get('token')
+    token_cookie = request.cookies.get('employee_token')
     cookie_results = await db.main.employee.find_one({"token": token_cookie})
     if cookie_results is None:
-        return redirect("/")
+        return redirect("/employeelogin")
 
     # rest of stuff
     results = await db.main.employee.find_one({"token": token_cookie})
@@ -51,7 +51,7 @@ async def employeemain():
 
 @employee_routes.route("/employee_job_portal/<job_id>/", methods=['GET'])
 async def employee_job_portal(job_id):
-    employee_token = request.cookies.get("token")
+    employee_token = request.cookies.get("employee_token")
     employee_results = await db.main.employee.find_one({"token": employee_token})
     if employee_results is None:
         return redirect("/employeelogin")

@@ -67,13 +67,14 @@ async def job_remove_employee(job_id_sent, owner_sent):
     
     return 'That person is not an employer'
 
-@job_datahandlers.route("/jobcreate/<token_sent>", methods=['POST'])
-async def jobcreate(token_sent):
+@job_datahandlers.route("/jobcreate/", methods=['POST'])
+async def jobcreate():
+    employer_token = request.cookies.get("employer_token")
     job_name = (await request.form) ["job_name"]
     price_per_hour = (await request.form) ["price_per_hour"]
     id = random.sample(characters, 10)
     job_id = "".join(id)
-    await db.main.jobs.insert_one({"owner": token_sent, "name": job_name, "id": job_id, "employees": [], 'price_per_hour': float(price_per_hour)})
+    await db.main.jobs.insert_one({"owner": employer_token, "name": job_name, "id": job_id, "employees": [], 'price_per_hour': float(price_per_hour)})
 
     return redirect(f"/jobmainemployer/{job_id}/")
 

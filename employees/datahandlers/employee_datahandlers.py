@@ -10,12 +10,13 @@ characters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q
 employee_datahandlers = Blueprint("employee_datahandlers", __name__)
 
 
-@employee_datahandlers.route("/addemployer/<token_sent>", methods=['POST'])
-async def addemployer(token_sent):
+@employee_datahandlers.route("/addemployer/", methods=['POST'])
+async def addemployer():
+    employee_token = request.cookies.get('employee_token')
     #rest of stuff
     employersid = (await request.form) ["employers_id"]
     results = await db.main.employer.find_one({"id": employersid})
-    resultsemployee = await db.main.employee.find_one({"token": token_sent})
+    resultsemployee = await db.main.employee.find_one({"token": employee_token})
     if results == None:
         return "Invalid id please try again"
     if resultsemployee == None:

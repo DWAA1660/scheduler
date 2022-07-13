@@ -7,7 +7,7 @@
 {{name}}'s employee portal
 <h5>your token is {{your_token}}</h5>
 <h5> your id is {{your_id}}
-<form action="{{url_for('employee_datahandlers.addemployer', token_sent=your_token)}}" method="post">
+<form action="{{url_for('employee_datahandlers.addemployer')}}" method="post">
     <input type="text" name="employers_id" placeholder="employers id" required>
     <input type="submit">
 </form>

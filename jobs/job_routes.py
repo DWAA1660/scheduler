@@ -10,7 +10,7 @@ job_routes = Blueprint("job_routes", __name__)
 
 @job_routes.route("/jobmainemployer/<job_id_sent>/", methods=['GET'])
 async def jobmain(job_id_sent):
-    employer_token = request.cookies.get('emptoken')
+    employer_token = request.cookies.get('employer_token')
     results = await db.main.jobs.find_one({"id": job_id_sent})
     if results is None:
         return 'Not a valid job'
