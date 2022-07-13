@@ -50,7 +50,7 @@ async def job_add_employee(job_id_sent, owner_sent):
     job_results = await db.main.jobs.find_one({"id": job_id_sent, "employees": employee_id["id"]})
     if job_results is None:
         await db.main.jobs.update_one({"id": job_id_sent}, {"$push": {"employees": employee_id["id"]}})
-        return redirect(f"/jobmainemployer/{job_id_sent}/{owner_sent}")
+        return redirect(f"/jobmainemployer/{job_id_sent}/")
     
     return 'That person is already an employer'
 
@@ -63,7 +63,7 @@ async def job_remove_employee(job_id_sent, owner_sent):
     job_results = await db.main.jobs.find_one({"id": job_id_sent, "employees": employee_id["id"]})
     if job_results is not None:
         await db.main.jobs.update_one({"id": job_id_sent}, {"$pull": {"employees": employee_id["id"]}})
-        return redirect(f"/jobmainemployer/{job_id_sent}/{owner_sent}")
+        return redirect(f"/jobmainemployer/{job_id_sent}/")
     
     return 'That person is not an employer'
 
@@ -75,7 +75,7 @@ async def jobcreate(token_sent):
     job_id = "".join(id)
     await db.main.jobs.insert_one({"owner": token_sent, "name": job_name, "id": job_id, "employees": [], 'price_per_hour': float(price_per_hour)})
 
-    return redirect(f"/jobmainemployer/{job_id}/{token_sent}")
+    return redirect(f"/jobmainemployer/{job_id}/")
 
 @job_datahandlers.route("/employee_shift_log/<employee_id_sent>/<job_id>", methods=['POST'])
 async def employee_shift_log(employee_id_sent, job_id):
@@ -117,7 +117,7 @@ async def employee_shift_log(employee_id_sent, job_id):
     minutes_remainder = minutes % 60
 
     db.main.shifts.insert_one({"employee": employee_id_sent, "start_date": start_date, "end_date": end_date, "start_time": start_time, "end_time": end_time, "job_id": job_id, "total_time": f"{int(hours)}:{int(minutes_remainder)}"})
-    return redirect(f"/employee_job_portal/{job_id}/{result['token']}")
+    return redirect(f"/employee_job_portal/{job_id}")
 
 '''"start_date": "2022-06-28",
   "end_date": "2022-06-28",

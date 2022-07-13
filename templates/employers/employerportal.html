@@ -30,7 +30,7 @@ Jobs
 <ul>
 {% for job in jobs: %}
     {% set employer_token = your_token %}
-<li><a href="{{url_for('job_routes.jobmain', job_id_sent=job['id'], employer_token_sent=employer_token)}}"> {{job["name"]}}</li>
+<li><a href="{{url_for('job_routes.jobmain', job_id_sent=job['id'])}}"> {{job["name"]}}</li>
 {% endfor %}
 </ul>
 </body>

@@ -22,7 +22,7 @@
 <h3>Jobs:</h3>
 <ul>
 {% for job in jobs %}
-    <li><a href="{{url_for('employee_routes.employee_job_portal', job_id=job['id'], employee_token_sent=your_token)}}"> {{job["name"]}} </a></li>
+    <li><a href="{{url_for('employee_routes.employee_job_portal', job_id=job['id'])}}"> {{job["name"]}} </a></li>
 {% endfor %}
 </ul>
 </body>

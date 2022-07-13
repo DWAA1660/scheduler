@@ -49,9 +49,12 @@ async def employeemain():
     )
 # HLy6UBborYxthA2G3dNs, twpXD7WomR6FgH8SuUGa
 
-@employee_routes.route("/employee_job_portal/<job_id>/<employee_token_sent>", methods=['GET'])
-async def employee_job_portal(job_id, employee_token_sent):
-    employee_results = await db.main.employee.find_one({"token": employee_token_sent})
+@employee_routes.route("/employee_job_portal/<job_id>/", methods=['GET'])
+async def employee_job_portal(job_id):
+    employee_token = request.cookies.get("token")
+    employee_results = await db.main.employee.find_one({"token": employee_token})
+    if employee_results is None:
+        return redirect("/employeelogin")
     job_results = await db.main.jobs.find_one({"id": job_id, "employees": employee_results['id']})
     if job_results is None:
         return 'Not a valid job'
@@ -59,6 +62,6 @@ async def employee_job_portal(job_id, employee_token_sent):
     job_name=job_results['name'],
     employees=job_results['employees'],
     db=db,
-    my_token=employee_token_sent,
+    my_token=employee_token,
     job_id=job_id,
     )
