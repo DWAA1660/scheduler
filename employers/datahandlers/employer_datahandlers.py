@@ -11,7 +11,6 @@ employer_datahandlers = Blueprint("employer_datahandlers", __name__)
 
 @employer_datahandlers.route("/quitemployer/<employer_id_sent>/<employee_token_sent>", methods=['POST'])
 async def quit_employer(employer_id_sent, employee_token_sent):
-    print(employee_token_sent)
     employee_results = await db.main.employee.find_one({"token": employee_token_sent})
     if (await request.form) ['manage_employee'] == 'Quit':
         if employee_results is None:
