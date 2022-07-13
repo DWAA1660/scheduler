@@ -8,8 +8,10 @@ db = client.main
 
 employee_routes = Blueprint("employee_routes", __name__)
 
-@employee_routes.route("/manageemployer/<employee_token_sent>/<employer_id_sent>", methods=['GET'])
-async def manage_employee(employee_token_sent, employer_id_sent):
+@employee_routes.route("/manageemployer/<employer_id_sent>", methods=['GET'])
+async def manage_employee(employer_id_sent):
+    employee_token_sent = request.cookies.get('token')
+
     employee_results = await db.main.employee.find_one({"token": employee_token_sent})
     if employee_results is None:
         return 'Invalid credentials'
@@ -26,8 +28,8 @@ async def employeesignup():
 async def employeelogin():
     return await render_template('/employees/employeelogin.html')
 
-@employee_routes.route("/employeemain/<token>", methods=['GET'])
-async def employeemain(token):
+@employee_routes.route("/employeemain/", methods=['GET'])
+async def employeemain():
     #cookie stuff
     token_cookie = request.cookies.get('token')
     cookie_results = await db.main.employee.find_one({"token": token_cookie})
@@ -42,9 +44,10 @@ async def employeemain(token):
     employers=results["employers"],
     your_id=results["id"],
     db=db,
-    your_token=token,
+    your_token=token_cookie,
     jobs=job_results
     )
+# HLy6UBborYxthA2G3dNs, twpXD7WomR6FgH8SuUGa
 
 @employee_routes.route("/employee_job_portal/<job_id>/<employee_token_sent>", methods=['GET'])
 async def employee_job_portal(job_id, employee_token_sent):

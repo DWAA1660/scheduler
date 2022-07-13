@@ -41,7 +41,6 @@ async def index():
 async def getstarted():
     return await render_template('getstarted.html')
 
-
 # If the file is run directly,start the app.
 if __name__ == '__main__':
     app.config['SESSION_TYPE'] = 'filesystem'

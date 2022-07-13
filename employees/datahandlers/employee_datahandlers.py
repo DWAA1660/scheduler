@@ -26,4 +26,4 @@ async def addemployer(token_sent):
     #adds employer to employees db
     await db.main.employee.update_one({"id": resultsemployee["id"]}, {"$push": {"employers": employersid}})
 
-    return redirect(f"/employeemain/{resultsemployee['token']}")
+    return redirect(f"/employeemain/")

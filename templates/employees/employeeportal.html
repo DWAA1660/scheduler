@@ -15,7 +15,7 @@
 <ul>
 {% for employer in employers %}
     {% set return = db.main.employer.find_one({"id": employer}) %}
-    <li><a href="{{url_for('employee_routes.manage_employee', employee_token_sent=your_token, employer_id_sent=return['id'])}}"> {{return["name"]}}</a></li>
+    <li><a href="{{url_for('employee_routes.manage_employee', employer_id_sent=return['id'])}}"> {{return["name"]}}</a></li>
 {% endfor %}
 </ul>
 

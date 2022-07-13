@@ -2,37 +2,37 @@ from quart import Blueprint, render_template, request, redirect
 import motor
 import motor.motor_asyncio
 from CONFIG import *
+import time
 client = CLIENT
 db = client.main
 
 
 employer_routes = Blueprint("employer_routes", __name__)
 
-@employer_routes.route("/manageemployee/<employer_token_sent>/<employee_id_sent>", methods=['GET'])
-async def manage_employee(employer_token_sent, employee_id_sent):
+@employer_routes.route("/manageemployee/<employee_id_sent>", methods=['GET'])
+async def manage_employee(employee_id_sent):
     #cookie stuff
-    cookie_token = await request.cookies.get('emptoken')
-    cookie_results = await db.main.employer.find_one('token', cookie_token)
-    if cookie_token is None or cookie_results is None:
+    token_cookie = request.cookies.get('emptoken')
+    cookie_results = await db.main.employer.find_one({'token': token_cookie})
+
+
+    if cookie_results is None:
         return redirect('/')
     #done with cookies
-    employer_results = await db.main.employer.find_one({"token": employer_token_sent})
-    if employer_results is None:
-        return 'Invalid credentials'
-    employee_results = await db.main.employee.find_one({"id": employee_id_sent, "employers": employer_results['id']})
+    employee_results = await db.main.employee.find_one({"id": employee_id_sent, "employers": cookie_results['id']})
     if employee_results is None:
         return 'Not valid employee'
-    return await render_template("/employers/manage_employee.html", employee_results_sent=employee_results, employer_results_sent=employer_results)
+    return await render_template("/employers/manage_employee.html", employee_results_sent=employee_results, employer_results_sent=cookie_results)
 
-@employer_routes.route("/employermain/<token>", methods=['GET'])
-async def employermain(token):
+@employer_routes.route("/employermain/", methods=['GET'])
+async def employermain():
     #cookie stuff
     cookie_token = request.cookies.get('emptoken')
-    cookie_results = await db.main.employer.find_one('token', cookie_token)
-    if cookie_token != token:
+    print(cookie_token)
+    results = await db.main.employer.find_one({"token": cookie_token})
+    if cookie_token is None or results is None:
         return redirect('/')
-    results = await db.main.employer.find_one({"token": token})
-    return await render_template("/employers//employerportal.html", your_token=token, name=results["name"], your_id=results["id"], employees=results["employees"], db=db)
+    return await render_template("/employers//employerportal.html", your_token=cookie_token, name=results["name"], your_id=results["id"], employees=results["employees"], db=db)
 
 
 @employer_routes.route("/employersignup", methods=['GET'])
