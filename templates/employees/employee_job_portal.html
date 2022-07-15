@@ -1,25 +1,44 @@
 <!DOCTYPE>
 <html>
 <head>
-<title>{{job_name}}</title>
-
+<title>{{job_name}} portal</title>
+<link rel="stylesheet" href= "{{ url_for('static',filename='styles/employees/job_portal.css') }}">
 </head>
 <body>
+<a href="{{ url_for('employee_routes.employeemain')}}"> Back to portal</a>
+<div id="employee_list">
+    <h3>Employees</h3>
+    <ul>
+    {% for employee in employees %}
+        {% set employee_results = db.main.employee.find_one({'id': employee}) %}
+        <li>{{employee_results['name']}}</li>
+    {% endfor %}
+    </ul>
+</div>
+
 {% set employee_results = db.main.employee.find_one({"token": my_token}) %}
-<h3>Employees</h3>
-<ul>
-{% for employee in employees %}
-	{% set employee_results = db.main.employee.find_one({'id': employee}) %}
-    <li>{{employee_results['name']}}</li>
-{% endfor %}
-</ul>
-<form action="{{url_for('job_datahandlers.employee_shift_log', employee_id_sent=employee_results['id'], job_id=job_id)}}" method="post">
-    <input type="date" id="startDate" name="start_date" value="start_date" placeholder="Start date" required>
-    <input type="time" id="startTimeID" name="start_time" value="start_time" placeholder="Start time" required>
-    <input type="date" id="endDate" name="end_date" value="end_date" placeholder="End date" required>
-    <input type="time" id="endTimeID"name="end_time" value="end_time" placeholder="End time" required>
-    <input type="submit">
-</form>
+<div id="log_time">
+    <form action="{{url_for('job_datahandlers.employee_shift_log', employee_id_sent=employee_results['id'], job_id=job_id)}}" method="post">
+        <input type="date" id="startDate" name="start_date" value="start_date" placeholder="Start date" required>
+        <input type="time" id="startTimeID" name="start_time" value="start_time" placeholder="Start time" required>
+        <input type="date" id="endDate" name="end_date" value="end_date" placeholder="End date" required>
+        <input type="time" id="endTimeID"name="end_time" value="end_time" placeholder="End time" required>
+        <input type="submit">
+    </form>
+</div>
+
+<div id="employee_shifts">
+    <h3>Your Shifts</h3>
+    <ul>
+    {% set shifts = db.main.shifts.find({"job_id": job_id, "employee": employee_results["id"]}) %}
+    {% for shift in shifts %}
+        <li>Start time: <b>{{shift["start_time"]}} {{shift["start_date"]}}:</b> End time: <b>{{shift["end_time"]}} {{shift["end_date"]}}:</b> Total time: <b>{{shift["total_time"]}}</b></li>
+    {% endfor %}
+    </ul>
+</div>
+
+<!-- scripts -->
+
 <button onclick="startTime()">Set now to start time</button>
 <button onclick="endTime()">Set now to end time</button>
 
@@ -61,13 +80,5 @@
         document.getElementById("endTimeID").value = full_time;
         }
         </script>
-
-<h3>Your Shifts</h3>
-<ul>
-{% set shifts = db.main.shifts.find({"job_id": job_id, "employee": employee_results["id"]}) %}
-{% for shift in shifts %}
-    <li>Start time: <b>{{shift["start_time"]}} {{shift["start_date"]}}:</b> End time: <b>{{shift["end_time"]}} {{shift["end_date"]}}:</b> Total time: <b>{{shift["total_time"]}}</b></li>
-{% endfor %}
-</ul>
 </body>
 </html>

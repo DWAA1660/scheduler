@@ -1,0 +1,13 @@
+body {
+    background-color: rgb(49, 190, 250);
+}
+
+input {
+    width: 30%;
+    padding: 12px 12px;
+    margin: 8px;
+}
+
+input:focus {
+    border: 3px solid black;
+}

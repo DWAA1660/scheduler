@@ -20,15 +20,15 @@ async def manage_employee(employer_id_sent):
         return 'Your not an employee'
     return await render_template("/employees/manage_employer.html", employee_results_sent=employee_results, employer_results_sent=employer_results)
 
-@employee_routes.route("/employees/employeesignup", methods=['GET'])
+@employee_routes.route("/employees/signup", methods=['GET'])
 async def employeesignup():
     return await render_template("/employees/employee_signup.html")
 
-@employee_routes.route("/employeelogin", methods=['GET'])
+@employee_routes.route("/employee/login", methods=['GET'])
 async def employeelogin():
     return await render_template('/employees/employeelogin.html')
 
-@employee_routes.route("/employeemain/", methods=['GET'])
+@employee_routes.route("/employee/portal", methods=['GET'])
 async def employeemain():
     #cookie stuff
     token_cookie = request.cookies.get('employee_token')

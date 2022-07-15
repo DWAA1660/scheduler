@@ -1,4 +1,5 @@
 #employees
+from distutils.log import debug
 from employees.datahandlers.employee_datahandlers import employee_datahandlers
 from employees.employee_routes import employee_routes
 from employees.employee_login_and_signup.employee_login_and_signup import employee_login_and_signup
@@ -31,6 +32,7 @@ app.register_blueprint(job_routes)
 
 #configs
 app.secret_key = 'super secret key'
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 @app.route("/", methods=['GET'])
 async def index():
@@ -44,5 +46,5 @@ async def getstarted():
 # If the file is run directly,start the app.
 if __name__ == '__main__':
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.run()
+    app.run(debug=True)
 

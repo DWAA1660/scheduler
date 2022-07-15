@@ -2,13 +2,13 @@
 <html>
 <head>
 <title>Welcome {{name}}</title>
+<link rel="stylesheet" href= "{{ url_for('static',filename='styles/employees/employee_portal.css') }}">
 </head>
 <body>
 {{name}}'s employee portal
-<h5>your token is {{your_token}}</h5>
 <h5> your id is {{your_id}}
 <form action="{{url_for('employee_datahandlers.addemployer')}}" method="post">
-    <input type="text" name="employers_id" placeholder="employers id" required>
+    <input id="employerIdInput" type="text" name="employers_id" placeholder="employers id" required>
     <input type="submit">
 </form>
 <h3>Employers:</h3>

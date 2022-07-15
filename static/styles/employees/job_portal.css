@@ -1,0 +1,16 @@
+body {
+    background-color: rgb(49, 190, 250);
+}
+
+
+#employee_list {
+    padding-top: 2px;
+    padding-right: 6cm;
+    padding-left: 2px;
+    border: 2px solid white;
+    width: fit-content;
+}
+
+#log_time {
+    padding-top: 3px;
+}

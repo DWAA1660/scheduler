@@ -1,0 +1,8 @@
+body {
+    background-color: rgb(49, 190, 250);
+}
+
+#employerIdInput:focus {
+    background-color: lightblue;
+    border: 2px solid blue;
+  }
