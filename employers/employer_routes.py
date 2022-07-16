@@ -19,10 +19,17 @@ async def manage_employee(employee_id_sent):
     if cookie_results is None:
         return redirect('/employerlogin')
     # done with cookies
-    employee_results = await db.main.employee.find_one({"id": employee_id_sent, "employers": cookie_results['id']})
+    employee_results = await db.main.employee.find_one(
+        {"id": employee_id_sent, "employers": cookie_results['id']}
+        )
+
     if employee_results is None:
         return 'Not valid employee'
-    return await render_template("/employers/manage_employee.html", employee_results_sent=employee_results, employer_results_sent=cookie_results)
+    return await render_template(
+        "/employers/manage_employee.html",
+        employee_results_sent=employee_results,
+        employer_results_sent=cookie_results
+        )
 
 
 @employer_routes.route("/employer/main/", methods=['GET'])
@@ -32,7 +39,14 @@ async def employermain():
     results = await db.main.employer.find_one({"token": cookie_token})
     if cookie_token is None or results is None:
         return redirect('/employerlogin')
-    return await render_template("/employers//employerportal.html", your_token=cookie_token, name=results["name"], your_id=results["id"], employees=results["employees"], db=db)
+    return await render_template(
+        "/employers//employerportal.html",
+        your_token=cookie_token,
+        name=results["name"],
+        your_id=results["id"],
+        employees=results["employees"],
+        db=db
+        )
 
 
 @employer_routes.route("/employer/signup", methods=['GET'])
