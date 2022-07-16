@@ -18,13 +18,13 @@ async def addemployer():
     results = await db.main.employer.find_one({"id": employersid})
     resultsemployee = await db.main.employee.find_one({"token": employee_token})
     if results == None:
-        return "Invalid id please try again"
+        return "Invalid id please <a href='/employee/login'> try again</a>"
     if resultsemployee == None:
-        return "Your credentials are invalid please try again"
+        return redirect('/employee/login/')
     employee_id = resultsemployee["id"]
     #adds employee to employers db
     await db.main.employer.update_one({"id": employersid}, {"$push": {"employees": employee_id}})
     #adds employer to employees db
     await db.main.employee.update_one({"id": resultsemployee["id"]}, {"$push": {"employers": employersid}})
 
-    return redirect(f"/employeemain/")
+    return redirect(f"/employee/portal/")

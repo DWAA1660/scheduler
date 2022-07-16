@@ -28,7 +28,7 @@ async def employeesignupdata():
         return 'That email is already registered'
 
     await db.main.employee.insert_one({"name": name, "phone": phone, "email": email, "password": password_hashed, "id": id_done, "token": token_done, "employers": []})
-    resp = await make_response(redirect (f"/employeemain/"))
+    resp = await make_response(redirect (f"/employee/portal/"))
     resp.set_cookie('employee_token', token_done)
     return resp
     
@@ -41,7 +41,7 @@ async def employeelogindata():
 
     results = await db.main.employee.find_one({"email": email, "password": password_hashed})
     if results is None:
-        return "<h1> Credentials are invalid please try again <a href='/employeelogin'>back to login</a>"
-    resp = await make_response(redirect(f"/employeemain/"))
+        return "<h1> Credentials are invalid please try again <a href='/employee/login'>back to login</a>"
+    resp = await make_response(redirect(f"/employee/portal/"))
     resp.set_cookie('employee_token', results['token'])
     return resp

@@ -7,15 +7,20 @@ Employee Sign up
 <link rel="stylesheet" href= "{{ url_for('static',filename='styles/employees/employee_signup.css') }}">
 </head>
 <body>
-<h1>Employee Sign up</h1>
-<form action="{{url_for('employee_login_and_signup.employeesignupdata')}}" method="post">
-<input type="text" name="name" placeholder="Enter your name" required>
-<br>
-<input type="email" name="email" placeholder="Enter your email" required>
-<br>
-<input type="tel" name="phone" placeholder="Enter your phone" required>
-<br>
-<input type="password" name="password" placeholder="Password" required>
-<br>
-<input type="submit" name="submit" value="Submit">
-</form>
+<div id="placeholder"></div>
+<div id="signup">    
+    <h2>Employee Sign up</h2>
+    <form action="{{url_for('employee_login_and_signup.employeesignupdata')}}" method="post">
+    <input type="text" name="name" placeholder="Enter your name" required>
+    <br>
+    <input type="email" name="email" placeholder="Enter your email" required>
+    <br>
+    <input type="tel" name="phone" placeholder="Enter your phone" required>
+    <br>
+    <input type="password" name="password" placeholder="Password" required>
+    <br>
+    <input id="submit" type="submit" name="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>

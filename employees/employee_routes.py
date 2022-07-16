@@ -28,7 +28,7 @@ async def employeesignup():
 async def employeelogin():
     return await render_template('/employees/employeelogin.html')
 
-@employee_routes.route("/employee/portal", methods=['GET'])
+@employee_routes.route("/employee/portal/", methods=['GET'])
 async def employeemain():
     #cookie stuff
     token_cookie = request.cookies.get('employee_token')
@@ -47,7 +47,6 @@ async def employeemain():
     your_token=token_cookie,
     jobs=job_results
     )
-# HLy6UBborYxthA2G3dNs, twpXD7WomR6FgH8SuUGa
 
 @employee_routes.route("/employee_job_portal/<job_id>/", methods=['GET'])
 async def employee_job_portal(job_id):

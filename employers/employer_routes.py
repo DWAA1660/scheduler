@@ -32,7 +32,7 @@ async def manage_employee(employee_id_sent):
         )
 
 
-@employer_routes.route("/employer/main/", methods=['GET'])
+@employer_routes.route("/employer/portal/", methods=['GET'])
 async def employermain():
     # cookie stuff
     cookie_token = request.cookies.get('employer_token')
@@ -49,11 +49,11 @@ async def employermain():
         )
 
 
-@employer_routes.route("/employer/signup", methods=['GET'])
+@employer_routes.route("/employer/signup/", methods=['GET'])
 async def employersignup():
     return await render_template('/employers/employer_signup.html')
 
 
-@employer_routes.route("/employerlogin", methods=['GET'])
+@employer_routes.route("/employer/login/", methods=['GET'])
 async def employerlogin():
     return await render_template('/employers/employerlogin.html')

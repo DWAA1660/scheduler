@@ -9,6 +9,7 @@ motor = "*"
 gunicorn = "*"
 python-docx = "*"
 flask-session = "*"
+autopep8 = "*"
 
 [dev-packages]
 

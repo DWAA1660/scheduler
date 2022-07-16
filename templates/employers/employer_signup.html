@@ -7,15 +7,20 @@ Sign up as employer
 <link rel="stylesheet" href= "{{ url_for('static',filename='styles/employers/employer_signup.css') }}">
 </head>
 <body>
-<h1>Employer sign up</h1>
-<form action="{{url_for('employer_signup_and_login.employersignupdata')}}" method="post">
-<input type="text" name="name" placeholder="Enter your name" required>
-<br>
-<input type="email" name="email" placeholder="Enter your email" required>
-<br>
-<input type="tel" name="phone" placeholder="Enter your phone" required>
-<br>
-<input type="password" name="password" placeholder="Password" required>
-<br>
-<input type="submit" name="submit" value="submit">
-</form>
+<div id="placeholder"></div>
+<div id="signup">
+    <h2>Employer sign up</h2>
+    <form action="{{url_for('employer_signup_and_login.employersignupdata')}}" method="post">
+    <input type="text" name="name" placeholder="Enter your name" required>
+    <br>
+    <input type="email" name="email" placeholder="Enter your email" required>
+    <br>
+    <input type="tel" name="phone" placeholder="Enter your phone" required>
+    <br>
+    <input type="password" name="password" placeholder="Password" required>
+    <br>
+    <input type="submit" name="submit" value="submit">
+    </form>
+</div>
+</body>
+</html>

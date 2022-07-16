@@ -2,12 +2,42 @@ body {
     background-color: rgb(49, 190, 250);
 }
 
+#signup {
+    padding-top: 8px;
+    margin-right: auto;
+    margin-left: auto;
+
+
+    background-color: thistle;
+    border: 3px solid black;
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+    width: 44%;
+    max-width: 440px;
+}
+
+
+#placeholder {
+    padding-top: 30px;
+}
+
 input {
-    width: 30%;
+    width: 80%;
     padding: 12px 12px;
+    padding-left: 4px;
     margin: 8px;
 }
 
 input:focus {
-    border: 3px solid black;
+    border: 2px solid black;
+}
+input:hover {
+    border: 2px solid black;
+    }
+
+#submit:hover {
+    background-color: gray;
+    position: relative;
+    top: -5px;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
