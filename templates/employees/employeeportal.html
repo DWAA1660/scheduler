@@ -5,6 +5,10 @@
 <link rel="stylesheet" href= "{{ url_for('static',filename='styles/employees/employee_portal.css') }}">
 </head>
 <body>
+<form action="{{ url_for('employee_datahandlers.employeelogout') }}" method="post">
+<input type="submit" name="logout" value="Logout">
+</form>
+
 {{name}}'s employee portal
 <h5> your id is {{your_id}}
 <form action="{{url_for('employee_datahandlers.addemployer')}}" method="post">

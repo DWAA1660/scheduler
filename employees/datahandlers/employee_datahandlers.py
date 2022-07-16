@@ -1,4 +1,4 @@
-from quart import Blueprint, redirect, request
+from quart import Blueprint, redirect, request, make_response
 import motor
 import random
 import motor.motor_asyncio
@@ -28,3 +28,9 @@ async def addemployer():
     await db.main.employee.update_one({"id": resultsemployee["id"]}, {"$push": {"employers": employersid}})
 
     return redirect(f"/employee/portal/")
+
+@employee_datahandlers.route('/employee/logout/', methods=['POST'])
+async def employeelogout():
+    resp = await make_response(redirect (f"/employee/login/"))
+    resp.set_cookie('employee_token', '', expires=0)
+    return resp

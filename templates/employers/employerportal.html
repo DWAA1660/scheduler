@@ -4,6 +4,9 @@
 <title>Welcome {{name}}</title>
 </head>
 <body>
+<form action="{{ url_for('employer_datahandlers.employerlogout') }}" method="post">
+<input type="submit" name="logout" value="Logout">
+</form>
 <h2>{{name}}'s portal</h2>
 <h4>Your id is "{{your_id}}"</h4>
 <h4>your token is "{{your_token}}"
