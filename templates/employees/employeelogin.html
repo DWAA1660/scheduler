@@ -1,14 +1,19 @@
 <!DOCTYPE>
 <html>
 <head>
-<title>
-</title>
+    <title>
+        Employee Login
+    </title>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='styles/employees/employee_login.css') }}">
 </head>
 <body>
-<h1>Employee Login</h1>
-<form action="{{url_for('employee_login_and_signup.employeelogindata')}}" method="post">
-<input type="text" name="email" placeholder="email" required>
-<input type="password" name="password" placeholder="Password" required>
-<input type="submit" name="Login" value="Login" />
+    <div id="placeholder"></div>
+    <div id="login">
+        <h1>Employee Login</h1>
+        <form action="{{url_for('employee_login_and_signup.employeelogindata')}}" method="post">
+        <input type="text" name="email" placeholder="email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" name="Login" value="Login" />
+    </div>
 </body>
 </html>

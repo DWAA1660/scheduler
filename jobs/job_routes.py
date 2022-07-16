@@ -20,9 +20,14 @@ async def jobmain(job_id_sent):
     if employer_results is None:
         return 'Not a valid employer of this job'
 
-    return await render_template("/jobs/job_main.html", job_employees=employees, 
+    return await render_template("/jobs/job_main.html",
+                        job_employees=employees, 
                         results=results,
-                        db=db, owner_id=employer_results["id"],
-                        owner_token=employer_results["token"], owner=employer_results["name"],
+                        db=db,
+                        owner_id=employer_results["id"],
+                        owner_token=employer_results["token"],
+                        owner=employer_results["name"],
                         employer_employees=employer_results["employees"],
-                        job_id = results["id"])
+                        job_id = results["id"],
+                        price_per_hour=results["price_per_hour"]
+                        )
