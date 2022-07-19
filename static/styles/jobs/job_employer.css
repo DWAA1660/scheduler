@@ -1,0 +1,50 @@
+body {
+    background-color: rgb(49, 190, 250);
+}
+
+#manageemployee {
+    padding: 4px;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: rgb(2, 121, 172);
+}
+input {
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: rgb(0, 119, 170);
+}
+
+#add {
+    background-color: rgb(83, 238, 12);
+}
+
+#remove {
+    background-color: rgb(231, 68, 68);
+}
+
+input:hover {
+    border: 2px solid black;
+}
+
+select option {
+    background-color: rgb(110, 206, 247);
+}
+
+select {
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: rgb(83, 199, 248);
+    padding-right: 5px;
+}
+
+#shifts {
+    height: fit-content;
+    max-height: 23vh;
+    width: fit-content;
+    overflow-y: scroll;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 8px;
+}
+

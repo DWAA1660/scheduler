@@ -1,69 +1,81 @@
 <!DOCTYPE>
 <html>
 <head>
-<title>Job portal</title>
+    <title>Job portal</title>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='styles/jobs/job_employer.css') }}">
 </head>
 <body>
-<a href="{{url_for('employer_routes.employermain')}}"> Back to portal</a>
-<h4>Owner is: {{owner}}</h4>
-<h4>Current price per hour is {{price_per_hour}}</h4>
-<h4>
-Add Employee
-</h4>
-<form action="{{url_for('job_datahandlers.job_add_employee', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
-    <label for="Employee">Choose employee</label>
-    <select name="Employee" id="Employee" required>
-        {% for employee in employer_employees %}
-            {% set employee_results=db.main.employee.find_one({"id": employee}) %}
-            {% set employee_name=employee_results["name"] %}
-            <option value="{{employee_results['id']}}">{{employee_name}}</option>
+    <div id="information">
+        <a href="{{url_for('employer_routes.employermain')}}"> Back to portal</a>
+        <h4>Owner is: {{owner}}</h4>
+        <h4>Current price per hour is {{price_per_hour}}</h4>
+    </div>
+
+    <div id="manageemployee">
+        <div id="addemployee">
+            <h4>
+            Add Employee
+            </h4>
+            <form action="{{url_for('job_datahandlers.job_add_employee', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
+                <label for="Employee">Choose employee</label>
+                <select name="Employee" id="Employee" required>
+                    {% for employee in employer_employees %}
+                        {% set employee_results=db.main.employee.find_one({"id": employee}) %}
+                        {% set employee_name=employee_results["name"] %}
+                        <option value="{{employee_results['id']}}">{{employee_name}}</option>
+                    {% endfor %}
+                <input type="submit" id="add" value="Add Employee">
+            </form>
+        </div>
+
+        <div id="removeemployee">
+            <h4>
+            Remove Employee
+            </h4>
+            <form action="{{url_for('job_datahandlers.job_remove_employee', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
+                <label for="Employee">Choose employee</label>
+                <select name="Employee" id="Employee" required>
+
+                    {% for employee in job_employees %}
+                        {% set employee_results=db.main.employee.find_one({"id": employee}) %}
+                        {% set employee_name=employee_results["name"] %}
+                        <option value="{{employee_results['id']}}">{{employee_name}}</option>
+                    {% endfor %}
+                <input type="submit" id="remove" value="Remove Employee">
+            </form>
+        </div>
+    </div>
+
+    <h3>Employees:</h3>
+    <ul>
+    {% for employee_id in job_employees %}
+        {% set employee_name_get = db.main.employee.find_one({"id": employee_id}) %}
+        <li>{{employee_name_get['name']}}</li>
+    {% endfor %}
+    </ul>
+
+    <h3>Your Employee Shifts</h3>
+    <div id="shifts">
+        <ul>
+        {% set shifts = db.main.shifts.find({"job_id": job_id}) %}
+        {% for shift in shifts %}
+            {% set employee_results = db.main.employee.find_one({"id":shift['employee']}) %}
+            <li>Employee <b>{{employee_results['name']}}</b> Start time: <b>{{shift["start_time"]}} {{shift["start_date"]}}</b>: End time: <b>{{shift["end_time"]}} {{shift["end_date"]}}</b>: Total time: <b>{{shift['total_time']}}</b></li>
         {% endfor %}
-    <input type="submit">
-</form>
+        </ul>
+    </div>
 
-<h4>
-Remove Employee
-</h4>
-<form action="{{url_for('job_datahandlers.job_remove_employee', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
-    <label for="Employee">Choose employee</label>
-    <select name="Employee" id="Employee" required>
+    <h3>
+    Make Invoice
+    </h3>
+    <form action="{{url_for('job_datahandlers.jobmakeinvoice', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
+        <input type="date" id="startDate" name="start_date" value="start_date" placeholder="Start date" required>
+        <input type="date" id="endDate" name="end_date" value="end_date" placeholder="End date" required>
+        <input type="submit" value="Create Invoice">
 
-        {% for employee in job_employees %}
-            {% set employee_results=db.main.employee.find_one({"id": employee}) %}
-            {% set employee_name=employee_results["name"] %}
-            <option value="{{employee_results['id']}}">{{employee_name}}</option>
-        {% endfor %}
-    <input type="submit">
-</form>
-
-<h3>Employees:</h3>
-<ul>
-{% for employee_id in job_employees %}
-    {% set employee_name_get = db.main.employee.find_one({"id": employee_id}) %}
-    <li>{{employee_name_get['name']}}</li>
-{% endfor %}
-</ul>
-
-<h3>Your Employee Shifts</h3>
-<ul>
-{% set shifts = db.main.shifts.find({"job_id": job_id}) %}
-{% for shift in shifts %}
-    {% set employee_results = db.main.employee.find_one({"id":shift['employee']}) %}
-    <li>Employee <b>{{employee_results['name']}}</b> Start time: <b>{{shift["start_time"]}} {{shift["start_date"]}}</b>: End time: <b>{{shift["end_time"]}} {{shift["end_date"]}}</b>: Total time: <b>{{shift['total_time']}}</b></li>
-{% endfor %}
-</ul>
-
-<h3>
-Make Invoice
-</h3>
-<form action="{{url_for('job_datahandlers.jobmakeinvoice', job_id_sent=job_id, owner_sent=owner_token)}}" method="post">
-    <input type="date" id="startDate" name="start_date" value="start_date" placeholder="Start date" required>
-    <input type="date" id="endDate" name="end_date" value="end_date" placeholder="End date" required>
-    <input type="submit" value="Create Invoice">
-
-</form>
-<button onclick="startTime()">Set now to start time</button>
-<button onclick="endTime()">Set now to end time</button>
+    </form>
+    <button onclick="startTime()">Set now to start time</button>
+    <button onclick="endTime()">Set now to end time</button>
 
 <script>
 function startTime() {

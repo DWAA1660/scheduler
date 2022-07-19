@@ -46,5 +46,5 @@ async def getstarted():
 # If the file is run directly,start the app.
 if __name__ == '__main__':
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.run(debug=True)
+    app.run(debug=False)
 
