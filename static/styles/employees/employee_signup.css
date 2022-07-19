@@ -10,7 +10,7 @@ body {
 
     background-color: thistle;
     border: 3px solid black;
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
     width: 44%;
     max-width: 440px;

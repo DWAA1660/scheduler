@@ -38,7 +38,7 @@ async def employermain():
     cookie_token = request.cookies.get('employer_token')
     results = await db.main.employer.find_one({"token": cookie_token})
     if cookie_token is None or results is None:
-        return redirect('/employerlogin')
+        return redirect('/employer/login')
     return await render_template(
         "/employers//employerportal.html",
         your_token=cookie_token,

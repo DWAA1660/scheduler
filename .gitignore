@@ -9,3 +9,6 @@ Pipfile.lock
 demo.docx
 *.docx
 CONFIG.py
+*venv
+.idea/modules.xml
+.idea/scheduler.iml
