@@ -9,6 +9,10 @@
         <a href="{{url_for('employer_routes.employermain')}}"> Back to portal</a>
         <h4>Owner is: {{owner}}</h4>
         <h4>Current price per hour is {{price_per_hour}}</h4>
+        <form action="{{url_for('job_datahandlers.jobeditprice', job_id=job_id)}}" method="post">
+            <input type="number" step="0.01" min=0 name="newprice" placeholder="New Price">
+            <input type="submit" value="Update">
+        </form>
     </div>
 
     <div id="manageemployee">

@@ -1,19 +1,32 @@
-from quart import Blueprint, redirect, request, flash, send_file
+from quart import Blueprint, redirect, request, send_file, render_template
 from invoice import invoice
 import motor
 import random
 import motor.motor_asyncio
-from CONFIG import CLIENT
+from CONFIG import *
 client = CLIENT
 from datetime import timedelta
 from datetime import datetime
 db = client.main
 from invoice import invoice
-characters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 
 job_datahandlers = Blueprint("job_datahandlers", __name__)
 
 # jobs
+@job_datahandlers.route("/jobeditprice/<job_id>", methods=['POST'])
+async def jobeditprice(job_id):
+    employer_token = request.cookies.get('employer_token')
+    if employer_token is None:
+        return redirect("/employer/login")
+
+    new_price = (await request.form)['newprice']
+    job_results = await db.main.jobs.find_one({"id": job_id, "owner": employer_token})
+    if job_results is None:
+        return 'Not valid job'
+    
+    await db.main.jobs.update_one({"id": job_id, "owner": employer_token}, {"$set": {"price_per_hour": float(new_price)}})
+    return redirect(f"/jobmainemployer/{job_id}")    
+
 @job_datahandlers.route("/jobmakeinvoice/<job_id_sent>/<owner_sent>", methods=['POST'])
 async def jobmakeinvoice(job_id_sent, owner_sent):
     job_results = await db.main.jobs.find_one({"id": job_id_sent, "owner": owner_sent})
@@ -116,7 +129,9 @@ async def employee_shift_log(employee_id_sent, job_id):
     minutes = totaltime.total_seconds() / 60
     hours = minutes // 60
     minutes_remainder = minutes % 60
-
+    if end_time_total < start_time_total:
+        return await render_template('errors/incorrect_time.html', job_id=job_id) 
+        
     db.main.shifts.insert_one({"employee": employee_id_sent, "start_date": start_date, "end_date": end_date, "start_time": start_time, "end_time": end_time, "job_id": job_id, "total_time": f"{int(hours)}:{int(minutes_remainder)}"})
     return redirect(f"/employee_job_portal/{job_id}")
 
