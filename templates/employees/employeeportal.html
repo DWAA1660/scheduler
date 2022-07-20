@@ -1,10 +1,16 @@
-<!DOCTYPE>
-<html>
-<head>
-<title>Welcome {{name}}</title>
-<link rel="stylesheet" href= "{{ url_for('static',filename='styles/employees/employee_portal.css') }}">
+{% extends 'employee_navbar.html' %}
+<!DOCTYPE html>
+<head>           
+    {% block head %}
+    <title>Welcome {{name}}</title>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='styles/employees/employee_portal.css') }}">
+    {% endblock %}
 </head>
 <body>
+<nav id="extendingbase">
+
+</nav>
+{% block main %}
 <form action="{{ url_for('employee_datahandlers.employeelogout') }}" method="post">
 <input type="submit" name="logout" value="Logout">
 </form>
@@ -29,5 +35,6 @@
     <li><a href="{{url_for('employee_routes.employee_job_portal', job_id=job['id'])}}"> {{job["name"]}} </a></li>
 {% endfor %}
 </ul>
+{% endblock %}
 </body>
 </html>

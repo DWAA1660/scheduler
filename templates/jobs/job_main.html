@@ -1,12 +1,18 @@
-<!DOCTYPE>
-<html>
+{% extends 'employer_navbar.html' %}
+<!DOCTYPE html>
 <head>
-    <title>Job portal</title>
+    {% block head %}
+    {% block title %}<title>Job portal</title>{% endblock %}
     <link rel="stylesheet" href= "{{ url_for('static',filename='styles/jobs/job_employer.css') }}">
+    {% endblock %}
 </head>
 <body>
+    <nav id="extendingbase">
+
+
+    </nav>
+    {% block main %}
     <div id="information">
-        <a href="{{url_for('employer_routes.employermain')}}"> Back to portal</a>
         <h4>Owner is: {{owner}}</h4>
         <h4>Current price per hour is {{price_per_hour}}</h4>
         <form action="{{url_for('job_datahandlers.jobeditprice', job_id=job_id)}}" method="post">
@@ -103,5 +109,6 @@ document.getElementById("endDate").value = full_date;
 
 }
 </script>
+{% endblock %}
 </body>
 </html>

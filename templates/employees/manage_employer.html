@@ -1,15 +1,22 @@
-<!DOCTYPE>
-<html>
+{% extends 'employee_navbar.html' %}
+<!DOCTYPE html>
 <head>
-<title>
-Manage {{employer_results_sent['name']}}
-</title>
+    {% block head %}
+        <title>
+        Manage {{employer_results_sent['name']}}
+        </title>
+    {% endblock %}
 </head>
 <body>
-<a href="{{ url_for('employee_routes.employeemain')}}"> Back to portal</a>
+    <nav id="extendingbase">
 
-<form action="{{url_for('employer_datahandlers.quit_employer', employer_id_sent=employer_results_sent['id'], employee_token_sent=employee_results_sent['token'])}}", method="post">
-<input type="submit" name="manage_employee" value='Quit'>
-</form>
+    </nav>
+    {% block main %}
+    <a href="{{ url_for('employee_routes.employeemain')}}"> Back to portal</a>
+
+    <form action="{{url_for('employer_datahandlers.quit_employer', employer_id_sent=employer_results_sent['id'], employee_token_sent=employee_results_sent['token'])}}", method="post">
+    <input type="submit" name="manage_employee" value='Quit'>
+    </form>
+    {% endblock %}
 </body>
 </html>

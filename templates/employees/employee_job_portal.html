@@ -1,10 +1,17 @@
-<!DOCTYPE>
-<html>
+{% extends 'employee_navbar.html' %}
+<!DOCTYPE html>
 <head>
+    {% block head %}
 <title>{{job_name}} portal</title>
 <link rel="stylesheet" href= "{{ url_for('static',filename='styles/employees/job_portal.css') }}">
+    {% endblock %}
 </head>
 <body>
+
+<nav id="extendingbase">
+
+</nav>
+{% block main %}
 <a href="{{ url_for('employee_routes.employeemain')}}"> Back to portal</a>
 <div id="employee_list">
     <h3>Employees</h3>
@@ -25,6 +32,8 @@
         <input type="time" id="endTimeID"name="end_time" value="end_time" placeholder="End time" required>
         <input type="submit">
     </form>
+    <button id="nowtime" onclick="startTime()">Set now to start time</button>
+    <button id="nowtime" onclick="endTime()">Set now to end time</button>
 </div>
 
 <div id="employee_shifts">
@@ -36,12 +45,8 @@
     {% endfor %}
     </ul>
 </div>
-
+{% endblock %}
 <!-- scripts -->
-
-<button onclick="startTime()">Set now to start time</button>
-<button onclick="endTime()">Set now to end time</button>
-
         <script>
         function startTime() {
         var current = new Date();

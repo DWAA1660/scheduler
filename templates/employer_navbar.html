@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+    {% block head %}
+        {%block title %}<title>Scheduler</title>{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    <nav id="extendingbase">
+        {% block nav %}
+        <style>
+            #nav {
+                background-color: grey;
+                border: 3px solid rgb(44, 44, 44);
+                text-align: center;
+                padding: 2vh;
+            }
+            nav button {
+                padding: 14px;
+                padding-right: 24px;
+                padding-left: 24px;
+                margin-right: 8px;
+            }
+            
+        </style>
+        <div id="nav">
+            <a href="/employer/portal/"><button>Portal</button></a>
+            <a href="{{url_for('employer_datahandlers.employerlogout')}}"><button>Logout</button></a>
+        </div>
+        {% endblock %}
+    </nav>    
+    {% block main %}
+
+    {% endblock %}
+</body>
+</html>

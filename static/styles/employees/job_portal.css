@@ -7,10 +7,25 @@ body {
     padding-top: 2px;
     padding-right: 6cm;
     padding-left: 2px;
-    border: 2px solid white;
+    border: 2px solid black;
+    border-radius: 10px;
     width: fit-content;
 }
 
 #log_time {
-    padding-top: 3px;
+    padding: 6px;
+}
+
+#nowtime {
+    padding: 8px;
+}
+
+#employee_shifts{
+    width: fit-content;
+    padding: 5px;
+    height: fit-content;
+    max-height: 23vh;
+    overflow-y: scroll;
+    border: 3px solid black;
+    border-radius: 10px;
 }

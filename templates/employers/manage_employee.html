@@ -1,14 +1,23 @@
-<!DOCTYPE>
-<html>
+{% extends 'employer_navbar.html' %}
+<!DOCTYPE html>
 <head>
-<title>
-Manage {{employee_results_sent['name']}}
-</title>
+    {% block head %}
+        {% block title %}
+            <title>
+            Manage {{employee_results_sent['name']}}
+            </title>
+        {% endblock %}
+    {% endblock %}
 </head>
 <body>
+    <nav id="extendingbase">
 
-<form action="{{url_for('employer_datahandlers.fire_employee', employee_id_sent=employee_results_sent['id'], employer_token_sent=employer_results_sent['token'])}}", method="post">
-<input type="submit" name="manage_employee" value='Fire'>
-</form>
+    </nav>
+    {% block main %}
+
+        <form action="{{url_for('employer_datahandlers.fire_employee', employee_id_sent=employee_results_sent['id'], employer_token_sent=employer_results_sent['token'])}}", method="post">
+        <input type="submit" name="manage_employee" value='Fire'>
+        </form>
+    {% endblock %}
 </body>
 </html>
