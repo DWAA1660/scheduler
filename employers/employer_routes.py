@@ -36,15 +36,16 @@ async def manage_employee(employee_id_sent):
 async def employermain():
     # cookie stuff
     cookie_token = request.cookies.get('employer_token')
-    results = await db.main.employer.find_one({"token": cookie_token})
-    if cookie_token is None or results is None:
+    employer_id = await db.main.employer.find_one({"token": cookie_token})
+    employees = db.main.employee.find({"employers": employer_id['id']})
+    if cookie_token is None or employer_id is None:
         return redirect('/employer/login')
     return await render_template(
         "/employers//employerportal.html",
         your_token=cookie_token,
-        name=results["name"],
-        your_id=results["id"],
-        employees=results["employees"],
+        name=employer_id["name"],
+        your_id=employer_id["id"],
+        employees=employees,
         db=db
         )
 
