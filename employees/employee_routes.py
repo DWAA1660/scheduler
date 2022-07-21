@@ -37,11 +37,12 @@ async def employeemain():
         return redirect("/employee/login")
 
     # rest of stuff
+    employers = db.main.employer.find({"employees": cookie_results['id']})
     results = await db.main.employee.find_one({"token": token_cookie})
     job_results = db.main.jobs.find({"employees": results['id']})
     return await render_template("/employees/employeeportal.html",
     name=results["name"],
-    employers=results["employers"],
+    employers=employers,
     your_id=results["id"],
     db=db,
     your_token=token_cookie,
