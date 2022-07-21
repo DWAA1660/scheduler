@@ -1,3 +1,4 @@
+from calendar import calendar
 from quart import Blueprint, redirect, request, send_file, render_template
 from invoice import invoice
 import motor
@@ -13,6 +14,12 @@ from invoice import invoice
 job_datahandlers = Blueprint("job_datahandlers", __name__)
 
 # jobs
+@job_datahandlers.route('/job_add_calendar/<job_id>', methods=['POST'])
+async def add_calendar(job_id):
+    calendarlink = (await request.form)['calendarlink']
+    await db.main.jobs.update_one({"id": job_id}, {"$set": {"calendar": calendarlink}}) 
+    return redirect(f'/jobmainemployer/{job_id}')
+
 @job_datahandlers.route("/jobeditprice/<job_id>", methods=['POST'])
 async def jobeditprice(job_id):
     employer_token = request.cookies.get('employer_token')

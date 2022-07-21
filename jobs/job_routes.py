@@ -19,7 +19,10 @@ async def jobmain(job_id_sent):
     employees = results["employees"]
     if employer_results is None:
         return 'Not a valid employer of this job'
-
+    try:
+        shared_url=results['calendar']
+    except KeyError:
+        shared_url=None
     return await render_template("/jobs/job_main.html",
                         job_employees=employees, 
                         results=results,
@@ -29,5 +32,6 @@ async def jobmain(job_id_sent):
                         owner=employer_results["name"],
                         employer_employees=employer_results["employees"],
                         job_id = results["id"],
-                        price_per_hour=results["price_per_hour"]
+                        price_per_hour=results["price_per_hour"],
+                        shared_url=shared_url,
                         )

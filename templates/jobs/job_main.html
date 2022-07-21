@@ -64,6 +64,18 @@
     {% endfor %}
     </ul>
 
+    <div id="calendar">
+        <form action="{{url_for('job_datahandlers.add_calendar', job_id=job_id)}}" method="post">
+            <input type="text" placeholder="shareable google calendar link" name="calendarlink">
+            <input type="submit" value="add calendar">
+        </form>
+        {% if shared_url is none %}
+            <h3>Calendar not Provided</h3>
+        {% else %}
+            <iframe src="{{shared_url}}" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        {% endif %}
+        </div>
+
     <h3>Your Employee Shifts</h3>
     <div id="shifts">
         <ul>
