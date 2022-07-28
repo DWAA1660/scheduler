@@ -1,5 +1,4 @@
 #employees
-from distutils.log import debug
 from employees.datahandlers.employee_datahandlers import employee_datahandlers
 from employees.employee_routes import employee_routes
 from employees.employee_login_and_signup import employee_login_and_signup
