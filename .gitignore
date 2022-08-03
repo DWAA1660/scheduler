@@ -12,3 +12,5 @@ CONFIG.py
 *venv
 .idea/modules.xml
 .idea/scheduler.iml
+*flask_session/
+test.py

@@ -1,4 +1,5 @@
 #employees
+from requests import session
 from employees.datahandlers.employee_datahandlers import employee_datahandlers
 from employees.employee_routes import employee_routes
 from employees.employee_login_and_signup import employee_login_and_signup
@@ -10,7 +11,8 @@ from employers.employer_routes import employer_routes
 from jobs.datahandlers.job_datahandlers import job_datahandlers
 from jobs.job_routes import job_routes
 #global imports
-from quart import Quart, render_template
+from quart import Quart, render_template, session
+from quart_session import Session
 import motor
 from CONFIG import *
 client = CLIENT
@@ -30,13 +32,14 @@ app.register_blueprint(job_datahandlers)
 app.register_blueprint(job_routes)
 
 #configs
-app.secret_key = 'super secret key'
+sess = Session(app)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+#routes
 
 @app.route("/", methods=['GET'])
 async def index():
     return await render_template('index.html')
-
 
 @app.route("/getstarted", methods=['GET'])
 async def getstarted():
@@ -44,6 +47,10 @@ async def getstarted():
 
 # If the file is run directly,start the app.
 if __name__ == '__main__':
-    app.config['SESSION_TYPE'] = 'filesystem'
-    app.run(debug=True)
+    app.config['SESSION_TYPE'] = 'redis'
+    app.config['SESSION_URI'] = 'redis://:@localhost:5001'
+    app.secret_key = 'supersecretkey'
+    app.config["SESSION_PERMANENT"] = False
 
+    sess.init_app(app)
+    app.run(debug=True)

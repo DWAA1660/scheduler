@@ -1,4 +1,4 @@
-from quart import Blueprint, render_template, request, redirect
+from quart import Blueprint, render_template, request, redirect, session
 import motor
 import motor.motor_asyncio
 from CONFIG import *
@@ -35,7 +35,10 @@ async def manage_employee(employee_id_sent):
 @employer_routes.route("/employer/portal/", methods=['GET'])
 async def employermain():
     # cookie stuff
-    cookie_token = request.cookies.get('employer_token')
+    try: 
+        cookie_token = session['employer_token']
+    except KeyError:
+        return redirect('/employer/login')
     employer_id = await db.main.employer.find_one({"token": cookie_token})
     employees = db.main.employee.find({"employers": employer_id['id']})
     if cookie_token is None or employer_id is None:

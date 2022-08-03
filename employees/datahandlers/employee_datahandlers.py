@@ -1,4 +1,4 @@
-from quart import Blueprint, redirect, request, make_response
+from quart import Blueprint, redirect, request, make_response, session
 import motor
 import random
 import motor.motor_asyncio
@@ -31,6 +31,6 @@ async def addemployer():
 
 @employee_datahandlers.route('/employee/logout/', methods=['POST'])
 async def employeelogout():
+    session.pop('employee_token')
     resp = await make_response(redirect (f"/employee/login/"))
-    resp.set_cookie('employee_token', '', expires=0)
     return resp

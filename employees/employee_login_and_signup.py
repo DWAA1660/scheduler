@@ -1,4 +1,4 @@
-from quart import Blueprint, redirect, request, make_response
+from quart import Blueprint, redirect, request, make_response, session
 import motor
 import random
 import motor.motor_asyncio
@@ -27,8 +27,8 @@ async def employeesignupdata():
         return 'That email is already registered'
 
     await db.main.employee.insert_one({"name": name, "phone": phone, "email": email, "password": password_hashed, "id": id_done, "token": token_done, "employers": []})
+    session['employee_token'] = token_done
     resp = await make_response(redirect (f"/employee/portal/"))
-    resp.set_cookie('employee_token', token_done)
     return resp
     
 @employee_login_and_signup.route("/employeelogindata", methods=['POST'])
@@ -41,6 +41,6 @@ async def employeelogindata():
     results = await db.main.employee.find_one({"email": email, "password": password_hashed})
     if results is None:
         return "<h1> Credentials are invalid please try again <a href='/employee/login'>back to login</a>"
+    session['employee_token'] = results['token']
     resp = await make_response(redirect(f"/employee/portal/"))
-    resp.set_cookie('employee_token', results['token'])
     return resp
