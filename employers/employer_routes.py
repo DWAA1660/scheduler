@@ -13,11 +13,14 @@ employer_routes = Blueprint("employer_routes", __name__)
 @employer_routes.route("/manageemployee/<employee_id_sent>", methods=['GET'])
 async def manage_employee(employee_id_sent):
     # cookie stuff
-    token_cookie = request.cookies.get('employer_token')
+    try:  
+        token_cookie = session['employer_token']
+    except KeyError:
+        return redirect('/employer/login')
     cookie_results = await db.main.employer.find_one({'token': token_cookie})
 
     if cookie_results is None:
-        return redirect('/employerlogin')
+        return redirect('/employer/login/')
     # done with cookies
     employee_results = await db.main.employee.find_one(
         {"id": employee_id_sent, "employers": cookie_results['id']}

@@ -1,5 +1,5 @@
 from calendar import calendar
-from quart import Blueprint, redirect, request, send_file, render_template
+from quart import Blueprint, redirect, request, send_file, render_template, session
 from invoice import invoice
 import motor
 import random
@@ -22,7 +22,10 @@ async def add_calendar(job_id):
 
 @job_datahandlers.route("/jobeditprice/<job_id>", methods=['POST'])
 async def jobeditprice(job_id):
-    employer_token = request.cookies.get('employer_token')
+    try:
+        employer_token = session['employer_token']
+    except KeyError:
+        return redirect('/employer/login/')
     if employer_token is None:
         return redirect("/employer/login")
 
@@ -89,7 +92,10 @@ async def job_remove_employee(job_id_sent, owner_sent):
 
 @job_datahandlers.route("/jobcreate/", methods=['POST'])
 async def jobcreate():
-    employer_token = request.cookies.get("employer_token")
+    try:
+        employer_token = session['employer_token']
+    except KeyError:
+        return redirect('/employer/login')
     job_name = (await request.form) ["job_name"]
     price_per_hour = (await request.form) ["price_per_hour"]
     id = random.sample(characters, 10)

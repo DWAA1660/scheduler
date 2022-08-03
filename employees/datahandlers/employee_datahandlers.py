@@ -12,7 +12,10 @@ employee_datahandlers = Blueprint("employee_datahandlers", __name__)
 
 @employee_datahandlers.route("/addemployer/", methods=['POST'])
 async def addemployer():
-    employee_token = request.cookies.get('employee_token')
+    try:
+        employee_token = session['employee_token']
+    except KeyError:
+        return redirect("/employee/login")
     #rest of stuff
     employersid = (await request.form) ["employers_id"]
     results = await db.main.employer.find_one({"id": employersid})
