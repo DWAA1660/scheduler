@@ -1,4 +1,4 @@
-start commands: \n
-    python3 app.py \n
-    redis-server --port 5001 \n
+start commands:
+    python3 app.py
+    redis-server --port 5001
 	
