@@ -1,3 +1,5 @@
-docx==0.2.4
+python-docx==0.8.11 
 motor==3.0.0
 quart==0.17.0
+quart_session==1.0.4
+aioredis
