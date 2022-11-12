@@ -14,3 +14,4 @@ CONFIG.py
 .idea/scheduler.iml
 *flask_session/
 test.py
+.env
