@@ -2,9 +2,10 @@ from calendar import calendar
 from quart import Blueprint, redirect, request, send_file, render_template, session
 from invoice import invoice
 import motor
-import random
 import motor.motor_asyncio
 from CONFIG import *
+import secrets
+
 client = CLIENT
 from datetime import timedelta
 from datetime import datetime
@@ -98,7 +99,7 @@ async def jobcreate():
         return redirect('/employer/login')
     job_name = (await request.form) ["job_name"]
     price_per_hour = (await request.form) ["price_per_hour"]
-    id = random.sample(characters, 10)
+    id = secrets.SystemRandom().sample(characters, 10)
     job_id = "".join(id)
     await db.main.jobs.insert_one({"owner": employer_token, "name": job_name, "id": job_id, "employees": [], 'price_per_hour': float(price_per_hour)})
 

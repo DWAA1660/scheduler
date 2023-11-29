@@ -1,9 +1,10 @@
 from quart import Blueprint, redirect, request, make_response, session
 import motor
-import random
 import motor.motor_asyncio
 import hashlib
 from CONFIG import *
+import secrets
+
 client = CLIENT
 db = client.main
 
@@ -19,9 +20,9 @@ async def employersignupdata():
     email = (await request.form) ['email'].lower()
     password = (await request.form) ['password'].encode('utf-8')
     password_hashed = hashlib.sha256(password).hexdigest()
-    token = random.sample(characters, 20)
+    token = secrets.SystemRandom().sample(characters, 20)
     token_done = "".join(token)
-    id = random.sample(characters, 10)
+    id = secrets.SystemRandom().sample(characters, 10)
     id_done = "".join(id)
     
 
