@@ -31,8 +31,7 @@ async def jobeditprice(job_id):
         return redirect("/employer/login")
 
     new_price = (await request.form)['newprice']
-    job_results = await db.main.jobs.find_one({"id": job_id, "owner": employer_token})
-    if job_results is None:
+    if (job_results := await db.main.jobs.find_one({"id": job_id, "owner": employer_token})) is None:
         return 'Not valid job'
     
     await db.main.jobs.update_one({"id": job_id, "owner": employer_token}, {"$set": {"price_per_hour": float(new_price)}})
@@ -40,8 +39,7 @@ async def jobeditprice(job_id):
 
 @job_datahandlers.route("/jobmakeinvoice/<job_id_sent>/<owner_sent>", methods=['POST'])
 async def jobmakeinvoice(job_id_sent, owner_sent):
-    job_results = await db.main.jobs.find_one({"id": job_id_sent, "owner": owner_sent})
-    if job_results is None:
+    if (job_results := await db.main.jobs.find_one({"id": job_id_sent, "owner": owner_sent})) is None:
         return 'Not a valid job'
     amount_of_shifts = await db.main.shifts.count_documents({"job_id": job_id_sent})
     shift_results = db.main.shifts.find({"job_id": job_id_sent})
@@ -68,11 +66,9 @@ async def jobmakeinvoice(job_id_sent, owner_sent):
 @job_datahandlers.route("/job_add_employee/<job_id_sent>/<owner_sent>", methods=['POST'])
 async def job_add_employee(job_id_sent, owner_sent):
     id=(await request.form)["Employee"]
-    employee_id = await db.main.employee.find_one({"id": id})
-    if employee_id is None:
+    if (employee_id := await db.main.employee.find_one({"id": id})) is None:
         return 'Not valid employee'
-    job_results = await db.main.jobs.find_one({"id": job_id_sent, "employees": employee_id["id"]})
-    if job_results is None:
+    if (job_results := await db.main.jobs.find_one({"id": job_id_sent, "employees": employee_id["id"]})) is None:
         await db.main.jobs.update_one({"id": job_id_sent}, {"$push": {"employees": employee_id["id"]}})
         return redirect(f"/jobmainemployer/{job_id_sent}/")
     
@@ -81,11 +77,9 @@ async def job_add_employee(job_id_sent, owner_sent):
 @job_datahandlers.route("/job_remove_employee/<job_id_sent>/<owner_sent>", methods=['POST'])
 async def job_remove_employee(job_id_sent, owner_sent):
     id=(await request.form)["Employee"]
-    employee_id = await db.main.employee.find_one({"id": id})
-    if employee_id is None:
+    if (employee_id := await db.main.employee.find_one({"id": id})) is None:
         return 'Not valid employee'
-    job_results = await db.main.jobs.find_one({"id": job_id_sent, "employees": employee_id["id"]})
-    if job_results is not None:
+    if (job_results := await db.main.jobs.find_one({"id": job_id_sent, "employees": employee_id["id"]})) is not None:
         await db.main.jobs.update_one({"id": job_id_sent}, {"$pull": {"employees": employee_id["id"]}})
         return redirect(f"/jobmainemployer/{job_id_sent}/")
     
@@ -111,8 +105,7 @@ async def employee_shift_log(employee_id_sent, job_id):
     start_time = data['start_time']
     start_date = data['start_date']
     
-    result = await db.main.employee.find_one({"id": employee_id_sent})
-    if result is None:
+    if (result := await db.main.employee.find_one({"id": employee_id_sent})) is None:
         return 'Incorrect employee'
     end_time = data['end_time']
     end_date = data['end_date']

@@ -26,8 +26,7 @@ async def employersignupdata():
     id_done = "".join(id)
     
 
-    results = await db.main.employer.find_one({"email": email})
-    if results is not None:
+    if (results := await db.main.employer.find_one({"email": email})) is not None:
         return 'That email is already registered'
     
     await db.main.employer.insert_one({"name": name, "phone": phone, "email": email, "password": password_hashed, "token": token_done, "id": id_done, "employees": []})
@@ -44,8 +43,7 @@ async def employerlogindata():
     password = (await request.form) ['password'].encode('utf-8')
     password_hashed = hashlib.sha256(password).hexdigest()
 
-    results = await db.main.employer.find_one({"email": email, "password": password_hashed})
-    if results is None:
+    if (results := await db.main.employer.find_one({"email": email, "password": password_hashed})) is None:
         return "<h1> Credentials are invalid please try again <a href='/employer/login'>back to login</a>"
     
     session['employer_token'] = results['token']

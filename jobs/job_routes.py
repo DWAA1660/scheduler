@@ -14,8 +14,7 @@ async def jobmain(job_id_sent):
         employer_token = session['employer_token']
     except KeyError:
         return redirect('/employer/login')
-    results = await db.main.jobs.find_one({"id": job_id_sent})
-    if results is None:
+    if (results := await db.main.jobs.find_one({"id": job_id_sent})) is None:
         return 'Not a valid job'
 
     employer_results = await db.main.employer.find_one({"token": employer_token})

@@ -14,11 +14,9 @@ async def manage_employee(employer_id_sent):
         employee_token_sent = session['employee_token']
     except KeyError:
         return redirect('/employee/login')
-    employee_results = await db.main.employee.find_one({"token": employee_token_sent})
-    if employee_results is None:
+    if (employee_results := await db.main.employee.find_one({"token": employee_token_sent})) is None:
         return 'Invalid credentials'
-    employer_results = await db.main.employer.find_one({"id": employer_id_sent, "employees": employee_results['id']})
-    if employer_results is None:
+    if (employer_results := await db.main.employer.find_one({"id": employer_id_sent, "employees": employee_results['id']})) is None:
         return 'Your not an employee'
     return await render_template("/employees/manage_employer.html", employee_results_sent=employee_results, employer_results_sent=employer_results)
 
@@ -37,8 +35,7 @@ async def employeemain():
         token_cookie = session['employee_token']
     except KeyError:
         return redirect('/employee/login')
-    cookie_results = await db.main.employee.find_one({"token": token_cookie})
-    if cookie_results is None:
+    if (cookie_results := await db.main.employee.find_one({"token": token_cookie})) is None:
         return redirect("/employee/login")
 
     # rest of stuff
@@ -60,11 +57,9 @@ async def employee_job_portal(job_id):
         employee_token = session['employee_token']
     except KeyError:
         return redirect('/employee/login')
-    employee_results = await db.main.employee.find_one({"token": employee_token})
-    if employee_results is None:
+    if (employee_results := await db.main.employee.find_one({"token": employee_token})) is None:
         return redirect("/employeelogin")
-    job_results = await db.main.jobs.find_one({"id": job_id, "employees": employee_results['id']})
-    if job_results is None:
+    if (job_results := await db.main.jobs.find_one({"id": job_id, "employees": employee_results['id']})) is None:
         return 'Not a valid job'
     return await render_template("/employees/employee_job_portal.html",
     job_name=job_results['name'],

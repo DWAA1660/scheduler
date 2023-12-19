@@ -23,8 +23,7 @@ async def employeesignupdata():
     id = secrets.SystemRandom().sample(characters, 10)
     id_done = "".join(id)
 
-    results = await db.main.employee.find_one({"email": email})
-    if results is not None:
+    if (results := await db.main.employee.find_one({"email": email})) is not None:
         return 'That email is already registered'
 
     await db.main.employee.insert_one({"name": name, "phone": phone, "email": email, "password": password_hashed, "id": id_done, "token": token_done, "employers": []})
@@ -39,8 +38,7 @@ async def employeelogindata():
     password_hashed = hashlib.sha256(password).hexdigest()
 
 
-    results = await db.main.employee.find_one({"email": email, "password": password_hashed})
-    if results is None:
+    if (results := await db.main.employee.find_one({"email": email, "password": password_hashed})) is None:
         return "<h1> Credentials are invalid please try again <a href='/employee/login'>back to login</a>"
     session['employee_token'] = results['token']
     resp = await make_response(redirect(f"/employee/portal/"))

@@ -17,16 +17,14 @@ async def manage_employee(employee_id_sent):
         token_cookie = session['employer_token']
     except KeyError:
         return redirect('/employer/login')
-    cookie_results = await db.main.employer.find_one({'token': token_cookie})
 
-    if cookie_results is None:
+    if (cookie_results := await db.main.employer.find_one({'token': token_cookie})) is None:
         return redirect('/employer/login/')
     # done with cookies
-    employee_results = await db.main.employee.find_one(
-        {"id": employee_id_sent, "employers": cookie_results['id']}
-        )
 
-    if employee_results is None:
+    if (employee_results := await db.main.employee.find_one(
+        {"id": employee_id_sent, "employers": cookie_results['id']}
+        )) is None:
         return 'Not valid employee'
     return await render_template(
         "/employers/manage_employee.html",
