@@ -2,8 +2,6 @@ import motor.motor_asyncio, motor, os
 from dotenv import load_dotenv
 
 load_dotenv()
-
-global CLIENT
 #CLIENT = motor.motor_asyncio.AsyncIOMotorClient("mongodb://localhost:27017/scheduler")
 CSTR = os.environ.get("CLIENT")
 print(CSTR)
