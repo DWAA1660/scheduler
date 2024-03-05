@@ -22,7 +22,7 @@ async def quit_employer(employer_id_sent, employee_token_sent):
         #removes employer to employees db
         await db.main.jobs.update_many({"owner": employer_results["token"]}, {"$pull": {"employees": employee_results["id"]}})
         await db.main.employee.update_one({"token": employee_token_sent}, {"$pull": {"employers": employer_results['id']}})
-        return redirect(f"/employee/portal/")
+        return redirect("/employee/portal/")
 
 @employer_datahandlers.route("/fireemployee/<employee_id_sent>/<employer_token_sent>", methods=['POST'])
 async def fire_employee(employee_id_sent, employer_token_sent):
@@ -36,12 +36,12 @@ async def fire_employee(employee_id_sent, employer_token_sent):
         await db.main.employer.update_one({"id": employer_results["id"]}, {"$pull": {"employees": employee_id_sent}})
         await db.main.employee.update_one({"id": employee_id_sent}, {"$pull": {"employers": employer_results['id']}})
         await db.main.jobs.update_many({"owner": employer_results["token"]}, {"$pull": {"employees": employee_results["id"]}})
-        return redirect(f"/employer/portal/")
+        return redirect("/employer/portal/")
     else: 
         return 'Whoops what'
 
 @employer_datahandlers.route('/employer/logout/', methods=['POST', 'GET'])
 async def employerlogout():
     session.pop('employer_token')
-    resp = await make_response(redirect (f"/employer/login/"))
+    resp = await make_response(redirect ("/employer/login/"))
     return resp

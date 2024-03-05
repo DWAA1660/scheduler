@@ -29,7 +29,7 @@ async def employeesignupdata():
 
     await db.main.employee.insert_one({"name": name, "phone": phone, "email": email, "password": password_hashed, "id": id_done, "token": token_done, "employers": []})
     session['employee_token'] = token_done
-    resp = await make_response(redirect (f"/employee/portal/"))
+    resp = await make_response(redirect ("/employee/portal/"))
     return resp
     
 @employee_login_and_signup.route("/employeelogindata", methods=['POST'])
@@ -43,5 +43,5 @@ async def employeelogindata():
     if results is None:
         return "<h1> Credentials are invalid please try again <a href='/employee/login'>back to login</a>"
     session['employee_token'] = results['token']
-    resp = await make_response(redirect(f"/employee/portal/"))
+    resp = await make_response(redirect("/employee/portal/"))
     return resp
