@@ -30,10 +30,10 @@ async def addemployer():
     #adds employer to employees db
     await db.main.employee.update_one({"id": resultsemployee["id"]}, {"$push": {"employers": employersid}})
 
-    return redirect(f"/employee/portal/")
+    return redirect("/employee/portal/")
 
 @employee_datahandlers.route('/employee/logout/', methods=['POST'])
 async def employeelogout():
     session.pop('employee_token')
-    resp = await make_response(redirect (f"/employee/login/"))
+    resp = await make_response(redirect ("/employee/login/"))
     return resp
